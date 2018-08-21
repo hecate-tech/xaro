@@ -1,0 +1,12 @@
+syntax = "proto3";
+package engoxaro;
+
+import "google/protobuf/timestamp.proto";
+
+message Player {
+    string username = 1;
+    int32 id = 2; // UID of client
+    string ip = 3;
+
+    google.protobuf.Timestamp last_updated = 5;
+}
