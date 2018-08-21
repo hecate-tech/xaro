@@ -14,5 +14,7 @@ func main() {
 		VSync:         false,
 		MSAA:          0,
 	}
+
+	//// Run the Scene /////
 	engo.Run(opts, &scenes.Nexus{})
 }
