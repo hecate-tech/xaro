@@ -18,13 +18,10 @@ var (
 
 	setBackground = common.SetBackground
 	playerNew     = player.New
-
-	//p = &player.Player{}
 )
 
 // Preload loads in essential graphics and assets
 func (*Nexus) Preload() {
-	//engo.Files.Load("graphics/player.png")
 
 }
 

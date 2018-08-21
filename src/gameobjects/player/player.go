@@ -27,7 +27,8 @@ type Player struct {
 
 	Updater engo.Updater
 
-	diff engo.Point
+	diff     engo.Point
+	shooting bool
 }
 
 var (
@@ -64,7 +65,6 @@ func New(w *ecs.World) *Player {
 	}
 
 	//// Registering Buttons /////
-	//engo.Input.RegisterButton("attack", engo.KeySpace)
 	engo.Input.RegisterButton("left", engo.KeyA)
 	engo.Input.RegisterButton("right", engo.KeyD)
 	engo.Input.RegisterButton("up", engo.KeyW)
@@ -79,22 +79,21 @@ func New(w *ecs.World) *Player {
 // Update gets called every frame
 func (p *Player) Update(dt float32) {
 	p.Ase.Update(dt)
-
-	p.Velocity.X, p.Velocity.Y = 0, 0
+	p.Velocity.Set(0, 0)
 
 	p.updateMovement()
-	p.updateAnimation()
-	p.updateIdleAnimation()
+	if p.inAction() {
+		p.updateAction(dt)
+	} else {
+		p.updateAnimation()
+		p.updateIdleAnimation()
+	}
 
-	p.diff.X, p.diff.Y = p.Velocity.X*dt, p.Velocity.Y*dt
-
-	p.Position.X += p.diff.X
-	p.Position.Y += p.diff.Y
-
+	p.Position.Add(*p.Velocity.MultiplyScalar(dt))
 	p.Drawable = p.Spritesheet.Drawable(int(p.Ase.CurrentFrame))
 }
 
 // Remove deletes the player and player systems
 func (p *Player) Remove(ecs.BasicEntity) {
-
+	p.Drawable.Close()
 }
