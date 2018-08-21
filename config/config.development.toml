@@ -1,0 +1,22 @@
+title = "Development Configuration"
+
+[connection]
+  ip = "127.0.0.1"
+  port = "8081"
+
+[window]
+  width = 800
+  height = 600
+  vsync = false
+  fullscreen = false
+
+[settings]
+    SoundVolume = 1.0
+    MusicVolume = 1.0
+
+[controls]
+    left = 65
+    right = 68
+    up = 87
+    down = 83
+    menu = 258

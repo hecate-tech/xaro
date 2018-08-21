@@ -39,7 +39,12 @@ var (
 
 // New is used to create a new player
 func New(w *ecs.World) *Player {
-	p := &Player{}
+	p := &Player{
+		BasicEntity: ecs.NewBasic(),
+		ShootSpeed:  0.5,
+		MoveSpeed:   120.0,
+		Scale:       4.0,
+	}
 
 	jsonPath, err := filepath.Abs("assets/graphics/player.json")
 	comm.ErrorCheck(err)
@@ -48,11 +53,6 @@ func New(w *ecs.World) *Player {
 
 	//// Setting Player Vars /////
 	p.Ase = goasperite.New(jsonPath, "player")
-	p.Velocity = engo.Point{X: 0, Y: 0}
-	p.BasicEntity = ecs.NewBasic()
-	p.ShootSpeed = 0.5
-	p.MoveSpeed = 120
-	p.Scale = 4.0
 	p.Spritesheet = common.NewSpritesheetFromFile(imagePath, int(p.Ase.FrameWidth), int(p.Ase.FrameHeight))
 	p.RenderComponent = common.RenderComponent{
 		Drawable: p.Spritesheet.Drawable(0),
@@ -63,12 +63,6 @@ func New(w *ecs.World) *Player {
 		Width:    p.Spritesheet.Width() * p.RenderComponent.Scale.X,
 		Height:   p.Spritesheet.Height() * p.RenderComponent.Scale.Y,
 	}
-
-	//// Registering Buttons /////
-	engo.Input.RegisterButton("left", engo.KeyA)
-	engo.Input.RegisterButton("right", engo.KeyD)
-	engo.Input.RegisterButton("up", engo.KeyW)
-	engo.Input.RegisterButton("down", engo.KeyS)
 
 	w.AddSystem(p)
 	p.Ase.Play("right") // Queues starting animation

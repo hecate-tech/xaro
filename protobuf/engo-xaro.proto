@@ -4,9 +4,9 @@ package engoxaro;
 import "google/protobuf/timestamp.proto";
 
 message Player {
-    string username = 1;
-    int32 id = 2; // UID of client
-    string ip = 3;
+    string Username = 1;
+    int32 ID = 2; // UID of client
+    string IP = 3;
 
-    google.protobuf.Timestamp last_updated = 5;
+    google.protobuf.Timestamp LastUpdated = 5;
 }

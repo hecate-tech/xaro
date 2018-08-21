@@ -4,6 +4,7 @@ import (
 	"image/color"
 
 	"github.com/damienfamed75/engo-xaro/src/gameobjects/player"
+	"github.com/damienfamed75/engo-xaro/src/system"
 
 	"engo.io/ecs"
 	"engo.io/engo"
@@ -22,7 +23,7 @@ var (
 
 // Preload loads in essential graphics and assets
 func (*Nexus) Preload() {
-
+	system.Init()
 }
 
 // Setup creates and instantiates everything in the world
