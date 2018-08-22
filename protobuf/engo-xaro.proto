@@ -1,12 +1,58 @@
 syntax = "proto3";
 package engoxaro;
 
-import "google/protobuf/timestamp.proto";
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.engoxaro";
+option java_outer_classname = "EngoXaroProto";
+
+// import "google/protobuf/timestamp.proto";
+
+// the greeting service definition
+service Greeter {
+    // sends the greeting.
+    rpc SayHello (HelloRequest) returns (HelloReply) {}
+    // send the player who joined
+    rpc UserJoined (Player) returns (HelloReply) {}
+    // send your position and receive every position of players
+    rpc SendPositions (Player) returns (PlayerPositions) {}
+}
+
+// The request containing the user's name.
+message HelloRequest {
+    string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+    string message = 1;
+}
+
+message Point {
+    float x = 1;
+    float y = 2;
+}
+
+message PlayerPositions {
+    repeated Point positions = 1;
+}
 
 message Player {
     string Username = 1;
     int32 ID = 2; // UID of client
     string IP = 3;
 
-    google.protobuf.Timestamp LastUpdated = 5;
+    Point position = 4;
+}
+
+message JoinGame {
+    string joinMessage = 1;
+}
+
+message PlayerLeft {
+    uint32 id = 1;
+}
+
+message PlayerJoined {
+    uint32 id = 1;
+    string username = 2;
 }
