@@ -1,0 +1,1 @@
+<img src="mascot.png" style="width: 200px" />
