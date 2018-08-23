@@ -1,3 +1,5 @@
+echo "Using GOPATH=$GOPATH"
+
 build () {
     buildMsg="Building Xaro"
     
