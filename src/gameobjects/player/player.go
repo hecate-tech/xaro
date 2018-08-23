@@ -33,7 +33,7 @@ func New(w *ecs.World) *Player {
 	//// Setting Player Vars /////
 	p.setupConnection(config.Connection.GetAddress())
 
-	p.Ase = goasperite.New(jsonPath, "player")
+	p.Ase = goasperite.New(jsonPath)
 
 	p.Spritesheet = common.NewSpritesheetFromFile(imagePath, int(p.Ase.FrameWidth), int(p.Ase.FrameHeight))
 

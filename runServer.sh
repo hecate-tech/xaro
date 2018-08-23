@@ -1,0 +1,1 @@
+go run src/communication/server/main.go
