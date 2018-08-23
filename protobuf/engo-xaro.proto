@@ -15,6 +15,12 @@ service Xaro {
     rpc UserLeft (Player) returns (ServerMessage) {}
     // send your position and receive every position of players
     rpc SendPlayerData (Player) returns (Players) {}
+    // sends the current number of players connected
+    rpc UsersConnected (Empty) returns (PlayerCount) {}
+}
+
+message Empty {
+
 }
 
 // The response message containing the greetings
@@ -29,6 +35,10 @@ message Point {
 
 message Players {
     map<uint32, Player> players = 1;
+}
+
+message PlayerCount {
+    int32 count = 1;
 }
 
 message Player {

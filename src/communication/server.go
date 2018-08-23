@@ -60,7 +60,7 @@ func (s *Server) UserLeft(ctx context.Context, in *pb.Player) (*pb.ServerMessage
 	return &pb.ServerMessage{Message: "You have disconnected from server..."}, nil
 }
 
-// GetUserCount gets the user count of the server
-func (s *Server) GetUserCount() int {
-	return len(s.clients)
+// UsersConnected gets the user count of the server
+func (s *Server) UsersConnected(ctx context.Context, in *pb.Empty) (*pb.PlayerCount, error) {
+	return &pb.PlayerCount{Count: int32(len(s.clients))}, nil
 }
