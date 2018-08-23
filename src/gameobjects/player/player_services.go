@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"engo.io/engo"
+	"github.com/damienfamed75/engo-xaro/src/common"
 	"github.com/damienfamed75/engo-xaro/src/communication"
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
 	"google.golang.org/grpc"
@@ -71,9 +72,7 @@ func (p *Player) action() {
 
 func (p *Player) setupConnection(address string) {
 	conn, err := grpc.Dial(address, grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
+	common.ErrorCheck(err)
 
 	// Creating new Client for server
 	c := pb.NewXaroClient(conn)

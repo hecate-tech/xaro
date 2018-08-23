@@ -1,7 +1,7 @@
 title = "Development Configuration"
 
 [connection]
-  ip = "127.0.0.1"
+  ip = "98.144.164.154"
   port = "8081"
 
 [window]
@@ -11,12 +11,15 @@ title = "Development Configuration"
   fullscreen = false
 
 [settings]
-    SoundVolume = 1.0
-    MusicVolume = 1.0
+  SoundVolume = 1.0
+  MusicVolume = 1.0
 
 [controls]
-    left = 65
-    right = 68
-    up = 87
-    down = 83
-    menu = 258
+  left = 65
+  right = 68
+  up = 87
+  down = 83
+  menu = 258
+
+[playerdata]
+  username = "Damien"

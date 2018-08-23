@@ -10,46 +10,19 @@ import (
 	"engo.io/engo/common"
 	goasperite "github.com/SolarLune/GoAseprite"
 	comm "github.com/damienfamed75/engo-xaro/src/common"
-	"github.com/damienfamed75/engo-xaro/src/communication"
-)
-
-// Player is the object that represents the client
-type Player struct {
-	Scale       float32
-	Spritesheet *common.Spritesheet
-	Ase         goasperite.AsepriteFile
-	ShootSpeed  float32
-	MoveSpeed   float32
-	Velocity    engo.Point
-	Username    string
-
-	ecs.BasicEntity
-
-	common.RenderComponent
-	common.SpaceComponent
-	common.MouseComponent
-
-	Updater engo.Updater
-
-	diff     engo.Point
-	shooting bool
-	Client   *communication.Client
-}
-
-var (
-	loadedSprite = common.LoadedSprite
-
-	imagePath = "/graphics/player.png"
+	"github.com/damienfamed75/engo-xaro/src/system"
 )
 
 // New is used to create a new player
 func New(w *ecs.World) *Player {
+	_, config := system.LoadViperConfig("/config/")
+
 	p := &Player{
 		BasicEntity: ecs.NewBasic(),
 		ShootSpeed:  0.5,
 		MoveSpeed:   120.0,
 		Scale:       4.0,
-		Username:    "Damien",
+		Username:    config.PlayerData.Username,
 	}
 
 	jsonPath, err := filepath.Abs("assets/graphics/player.json")
@@ -58,13 +31,17 @@ func New(w *ecs.World) *Player {
 	comm.ErrorCheck(err)
 
 	//// Setting Player Vars /////
-	p.setupConnection("98.144.164.154:8081")
+	p.setupConnection(config.Connection.GetAddress())
+
 	p.Ase = goasperite.New(jsonPath, "player")
+
 	p.Spritesheet = common.NewSpritesheetFromFile(imagePath, int(p.Ase.FrameWidth), int(p.Ase.FrameHeight))
+
 	p.RenderComponent = common.RenderComponent{
 		Drawable: p.Spritesheet.Drawable(0),
 		Scale:    engo.Point{X: p.Scale, Y: p.Scale},
 	}
+
 	p.SpaceComponent = common.SpaceComponent{
 		Position: engo.Point{X: 0, Y: 0},
 		Width:    p.Spritesheet.Width() * p.RenderComponent.Scale.X,
