@@ -23,78 +23,39 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-// The request containing the user's name.
-type HelloRequest struct {
-	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *HelloRequest) Reset()         { *m = HelloRequest{} }
-func (m *HelloRequest) String() string { return proto.CompactTextString(m) }
-func (*HelloRequest) ProtoMessage()    {}
-func (*HelloRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_engo_xaro_d728998156398b54, []int{0}
-}
-func (m *HelloRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_HelloRequest.Unmarshal(m, b)
-}
-func (m *HelloRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_HelloRequest.Marshal(b, m, deterministic)
-}
-func (dst *HelloRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_HelloRequest.Merge(dst, src)
-}
-func (m *HelloRequest) XXX_Size() int {
-	return xxx_messageInfo_HelloRequest.Size(m)
-}
-func (m *HelloRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_HelloRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_HelloRequest proto.InternalMessageInfo
-
-func (m *HelloRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
 // The response message containing the greetings
-type HelloReply struct {
+type ServerMessage struct {
 	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *HelloReply) Reset()         { *m = HelloReply{} }
-func (m *HelloReply) String() string { return proto.CompactTextString(m) }
-func (*HelloReply) ProtoMessage()    {}
-func (*HelloReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_engo_xaro_d728998156398b54, []int{1}
+func (m *ServerMessage) Reset()         { *m = ServerMessage{} }
+func (m *ServerMessage) String() string { return proto.CompactTextString(m) }
+func (*ServerMessage) ProtoMessage()    {}
+func (*ServerMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_engo_xaro_5b780acb17b1fd55, []int{0}
 }
-func (m *HelloReply) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_HelloReply.Unmarshal(m, b)
+func (m *ServerMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ServerMessage.Unmarshal(m, b)
 }
-func (m *HelloReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_HelloReply.Marshal(b, m, deterministic)
+func (m *ServerMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ServerMessage.Marshal(b, m, deterministic)
 }
-func (dst *HelloReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_HelloReply.Merge(dst, src)
+func (dst *ServerMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ServerMessage.Merge(dst, src)
 }
-func (m *HelloReply) XXX_Size() int {
-	return xxx_messageInfo_HelloReply.Size(m)
+func (m *ServerMessage) XXX_Size() int {
+	return xxx_messageInfo_ServerMessage.Size(m)
 }
-func (m *HelloReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_HelloReply.DiscardUnknown(m)
+func (m *ServerMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_ServerMessage.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_HelloReply proto.InternalMessageInfo
+var xxx_messageInfo_ServerMessage proto.InternalMessageInfo
 
-func (m *HelloReply) GetMessage() string {
+func (m *ServerMessage) GetMessage() string {
 	if m != nil {
 		return m.Message
 	}
@@ -113,7 +74,7 @@ func (m *Point) Reset()         { *m = Point{} }
 func (m *Point) String() string { return proto.CompactTextString(m) }
 func (*Point) ProtoMessage()    {}
 func (*Point) Descriptor() ([]byte, []int) {
-	return fileDescriptor_engo_xaro_d728998156398b54, []int{2}
+	return fileDescriptor_engo_xaro_5b780acb17b1fd55, []int{1}
 }
 func (m *Point) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Point.Unmarshal(m, b)
@@ -147,47 +108,47 @@ func (m *Point) GetY() float32 {
 	return 0
 }
 
-type PlayerPositions struct {
-	Positions            []*Point `protobuf:"bytes,1,rep,name=positions,proto3" json:"positions,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+type Players struct {
+	Players              map[uint32]*Player `protobuf:"bytes,1,rep,name=players,proto3" json:"players,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
-func (m *PlayerPositions) Reset()         { *m = PlayerPositions{} }
-func (m *PlayerPositions) String() string { return proto.CompactTextString(m) }
-func (*PlayerPositions) ProtoMessage()    {}
-func (*PlayerPositions) Descriptor() ([]byte, []int) {
-	return fileDescriptor_engo_xaro_d728998156398b54, []int{3}
+func (m *Players) Reset()         { *m = Players{} }
+func (m *Players) String() string { return proto.CompactTextString(m) }
+func (*Players) ProtoMessage()    {}
+func (*Players) Descriptor() ([]byte, []int) {
+	return fileDescriptor_engo_xaro_5b780acb17b1fd55, []int{2}
 }
-func (m *PlayerPositions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_PlayerPositions.Unmarshal(m, b)
+func (m *Players) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Players.Unmarshal(m, b)
 }
-func (m *PlayerPositions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_PlayerPositions.Marshal(b, m, deterministic)
+func (m *Players) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Players.Marshal(b, m, deterministic)
 }
-func (dst *PlayerPositions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PlayerPositions.Merge(dst, src)
+func (dst *Players) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Players.Merge(dst, src)
 }
-func (m *PlayerPositions) XXX_Size() int {
-	return xxx_messageInfo_PlayerPositions.Size(m)
+func (m *Players) XXX_Size() int {
+	return xxx_messageInfo_Players.Size(m)
 }
-func (m *PlayerPositions) XXX_DiscardUnknown() {
-	xxx_messageInfo_PlayerPositions.DiscardUnknown(m)
+func (m *Players) XXX_DiscardUnknown() {
+	xxx_messageInfo_Players.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_PlayerPositions proto.InternalMessageInfo
+var xxx_messageInfo_Players proto.InternalMessageInfo
 
-func (m *PlayerPositions) GetPositions() []*Point {
+func (m *Players) GetPlayers() map[uint32]*Player {
 	if m != nil {
-		return m.Positions
+		return m.Players
 	}
 	return nil
 }
 
 type Player struct {
 	Username             string   `protobuf:"bytes,1,opt,name=Username,proto3" json:"Username,omitempty"`
-	ID                   int32    `protobuf:"varint,2,opt,name=ID,proto3" json:"ID,omitempty"`
+	ID                   uint32   `protobuf:"varint,2,opt,name=ID,proto3" json:"ID,omitempty"`
 	IP                   string   `protobuf:"bytes,3,opt,name=IP,proto3" json:"IP,omitempty"`
 	Position             *Point   `protobuf:"bytes,4,opt,name=position,proto3" json:"position,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -199,7 +160,7 @@ func (m *Player) Reset()         { *m = Player{} }
 func (m *Player) String() string { return proto.CompactTextString(m) }
 func (*Player) ProtoMessage()    {}
 func (*Player) Descriptor() ([]byte, []int) {
-	return fileDescriptor_engo_xaro_d728998156398b54, []int{4}
+	return fileDescriptor_engo_xaro_5b780acb17b1fd55, []int{3}
 }
 func (m *Player) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Player.Unmarshal(m, b)
@@ -226,7 +187,7 @@ func (m *Player) GetUsername() string {
 	return ""
 }
 
-func (m *Player) GetID() int32 {
+func (m *Player) GetID() uint32 {
 	if m != nil {
 		return m.ID
 	}
@@ -247,42 +208,50 @@ func (m *Player) GetPosition() *Point {
 	return nil
 }
 
-type JoinGame struct {
-	JoinMessage          string   `protobuf:"bytes,1,opt,name=joinMessage,proto3" json:"joinMessage,omitempty"`
+type JoinMessage struct {
+	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Newid                uint32   `protobuf:"varint,2,opt,name=newid,proto3" json:"newid,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *JoinGame) Reset()         { *m = JoinGame{} }
-func (m *JoinGame) String() string { return proto.CompactTextString(m) }
-func (*JoinGame) ProtoMessage()    {}
-func (*JoinGame) Descriptor() ([]byte, []int) {
-	return fileDescriptor_engo_xaro_d728998156398b54, []int{5}
+func (m *JoinMessage) Reset()         { *m = JoinMessage{} }
+func (m *JoinMessage) String() string { return proto.CompactTextString(m) }
+func (*JoinMessage) ProtoMessage()    {}
+func (*JoinMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_engo_xaro_5b780acb17b1fd55, []int{4}
 }
-func (m *JoinGame) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_JoinGame.Unmarshal(m, b)
+func (m *JoinMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_JoinMessage.Unmarshal(m, b)
 }
-func (m *JoinGame) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_JoinGame.Marshal(b, m, deterministic)
+func (m *JoinMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_JoinMessage.Marshal(b, m, deterministic)
 }
-func (dst *JoinGame) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_JoinGame.Merge(dst, src)
+func (dst *JoinMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_JoinMessage.Merge(dst, src)
 }
-func (m *JoinGame) XXX_Size() int {
-	return xxx_messageInfo_JoinGame.Size(m)
+func (m *JoinMessage) XXX_Size() int {
+	return xxx_messageInfo_JoinMessage.Size(m)
 }
-func (m *JoinGame) XXX_DiscardUnknown() {
-	xxx_messageInfo_JoinGame.DiscardUnknown(m)
+func (m *JoinMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_JoinMessage.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_JoinGame proto.InternalMessageInfo
+var xxx_messageInfo_JoinMessage proto.InternalMessageInfo
 
-func (m *JoinGame) GetJoinMessage() string {
+func (m *JoinMessage) GetMessage() string {
 	if m != nil {
-		return m.JoinMessage
+		return m.Message
 	}
 	return ""
+}
+
+func (m *JoinMessage) GetNewid() uint32 {
+	if m != nil {
+		return m.Newid
+	}
+	return 0
 }
 
 type PlayerLeft struct {
@@ -296,7 +265,7 @@ func (m *PlayerLeft) Reset()         { *m = PlayerLeft{} }
 func (m *PlayerLeft) String() string { return proto.CompactTextString(m) }
 func (*PlayerLeft) ProtoMessage()    {}
 func (*PlayerLeft) Descriptor() ([]byte, []int) {
-	return fileDescriptor_engo_xaro_d728998156398b54, []int{6}
+	return fileDescriptor_engo_xaro_5b780acb17b1fd55, []int{5}
 }
 func (m *PlayerLeft) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PlayerLeft.Unmarshal(m, b)
@@ -335,7 +304,7 @@ func (m *PlayerJoined) Reset()         { *m = PlayerJoined{} }
 func (m *PlayerJoined) String() string { return proto.CompactTextString(m) }
 func (*PlayerJoined) ProtoMessage()    {}
 func (*PlayerJoined) Descriptor() ([]byte, []int) {
-	return fileDescriptor_engo_xaro_d728998156398b54, []int{7}
+	return fileDescriptor_engo_xaro_5b780acb17b1fd55, []int{6}
 }
 func (m *PlayerJoined) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PlayerJoined.Unmarshal(m, b)
@@ -370,12 +339,12 @@ func (m *PlayerJoined) GetUsername() string {
 }
 
 func init() {
-	proto.RegisterType((*HelloRequest)(nil), "engoxaro.HelloRequest")
-	proto.RegisterType((*HelloReply)(nil), "engoxaro.HelloReply")
+	proto.RegisterType((*ServerMessage)(nil), "engoxaro.ServerMessage")
 	proto.RegisterType((*Point)(nil), "engoxaro.Point")
-	proto.RegisterType((*PlayerPositions)(nil), "engoxaro.PlayerPositions")
+	proto.RegisterType((*Players)(nil), "engoxaro.Players")
+	proto.RegisterMapType((map[uint32]*Player)(nil), "engoxaro.Players.PlayersEntry")
 	proto.RegisterType((*Player)(nil), "engoxaro.Player")
-	proto.RegisterType((*JoinGame)(nil), "engoxaro.JoinGame")
+	proto.RegisterType((*JoinMessage)(nil), "engoxaro.JoinMessage")
 	proto.RegisterType((*PlayerLeft)(nil), "engoxaro.PlayerLeft")
 	proto.RegisterType((*PlayerJoined)(nil), "engoxaro.PlayerJoined")
 }
@@ -388,169 +357,170 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// GreeterClient is the client API for Greeter service.
+// XaroClient is the client API for Xaro service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type GreeterClient interface {
-	// sends the greeting.
-	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
+type XaroClient interface {
 	// send the player who joined
-	UserJoined(ctx context.Context, in *Player, opts ...grpc.CallOption) (*HelloReply, error)
+	UserJoined(ctx context.Context, in *Player, opts ...grpc.CallOption) (*JoinMessage, error)
+	// send the player who left
+	UserLeft(ctx context.Context, in *Player, opts ...grpc.CallOption) (*ServerMessage, error)
 	// send your position and receive every position of players
-	SendPositions(ctx context.Context, in *Player, opts ...grpc.CallOption) (*PlayerPositions, error)
+	SendPlayerData(ctx context.Context, in *Player, opts ...grpc.CallOption) (*Players, error)
 }
 
-type greeterClient struct {
+type xaroClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewGreeterClient(cc *grpc.ClientConn) GreeterClient {
-	return &greeterClient{cc}
+func NewXaroClient(cc *grpc.ClientConn) XaroClient {
+	return &xaroClient{cc}
 }
 
-func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
-	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/engoxaro.Greeter/SayHello", in, out, opts...)
+func (c *xaroClient) UserJoined(ctx context.Context, in *Player, opts ...grpc.CallOption) (*JoinMessage, error) {
+	out := new(JoinMessage)
+	err := c.cc.Invoke(ctx, "/engoxaro.Xaro/UserJoined", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *greeterClient) UserJoined(ctx context.Context, in *Player, opts ...grpc.CallOption) (*HelloReply, error) {
-	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/engoxaro.Greeter/UserJoined", in, out, opts...)
+func (c *xaroClient) UserLeft(ctx context.Context, in *Player, opts ...grpc.CallOption) (*ServerMessage, error) {
+	out := new(ServerMessage)
+	err := c.cc.Invoke(ctx, "/engoxaro.Xaro/UserLeft", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *greeterClient) SendPositions(ctx context.Context, in *Player, opts ...grpc.CallOption) (*PlayerPositions, error) {
-	out := new(PlayerPositions)
-	err := c.cc.Invoke(ctx, "/engoxaro.Greeter/SendPositions", in, out, opts...)
+func (c *xaroClient) SendPlayerData(ctx context.Context, in *Player, opts ...grpc.CallOption) (*Players, error) {
+	out := new(Players)
+	err := c.cc.Invoke(ctx, "/engoxaro.Xaro/SendPlayerData", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GreeterServer is the server API for Greeter service.
-type GreeterServer interface {
-	// sends the greeting.
-	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
+// XaroServer is the server API for Xaro service.
+type XaroServer interface {
 	// send the player who joined
-	UserJoined(context.Context, *Player) (*HelloReply, error)
+	UserJoined(context.Context, *Player) (*JoinMessage, error)
+	// send the player who left
+	UserLeft(context.Context, *Player) (*ServerMessage, error)
 	// send your position and receive every position of players
-	SendPositions(context.Context, *Player) (*PlayerPositions, error)
+	SendPlayerData(context.Context, *Player) (*Players, error)
 }
 
-func RegisterGreeterServer(s *grpc.Server, srv GreeterServer) {
-	s.RegisterService(&_Greeter_serviceDesc, srv)
+func RegisterXaroServer(s *grpc.Server, srv XaroServer) {
+	s.RegisterService(&_Xaro_serviceDesc, srv)
 }
 
-func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GreeterServer).SayHello(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/engoxaro.Greeter/SayHello",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).SayHello(ctx, req.(*HelloRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Greeter_UserJoined_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Xaro_UserJoined_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Player)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreeterServer).UserJoined(ctx, in)
+		return srv.(XaroServer).UserJoined(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/engoxaro.Greeter/UserJoined",
+		FullMethod: "/engoxaro.Xaro/UserJoined",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).UserJoined(ctx, req.(*Player))
+		return srv.(XaroServer).UserJoined(ctx, req.(*Player))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Greeter_SendPositions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Xaro_UserLeft_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Player)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreeterServer).SendPositions(ctx, in)
+		return srv.(XaroServer).UserLeft(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/engoxaro.Greeter/SendPositions",
+		FullMethod: "/engoxaro.Xaro/UserLeft",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).SendPositions(ctx, req.(*Player))
+		return srv.(XaroServer).UserLeft(ctx, req.(*Player))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _Greeter_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "engoxaro.Greeter",
-	HandlerType: (*GreeterServer)(nil),
+func _Xaro_SendPlayerData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Player)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(XaroServer).SendPlayerData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/engoxaro.Xaro/SendPlayerData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(XaroServer).SendPlayerData(ctx, req.(*Player))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Xaro_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "engoxaro.Xaro",
+	HandlerType: (*XaroServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SayHello",
-			Handler:    _Greeter_SayHello_Handler,
-		},
-		{
 			MethodName: "UserJoined",
-			Handler:    _Greeter_UserJoined_Handler,
+			Handler:    _Xaro_UserJoined_Handler,
 		},
 		{
-			MethodName: "SendPositions",
-			Handler:    _Greeter_SendPositions_Handler,
+			MethodName: "UserLeft",
+			Handler:    _Xaro_UserLeft_Handler,
+		},
+		{
+			MethodName: "SendPlayerData",
+			Handler:    _Xaro_SendPlayerData_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "engo-xaro.proto",
 }
 
-func init() { proto.RegisterFile("engo-xaro.proto", fileDescriptor_engo_xaro_d728998156398b54) }
+func init() { proto.RegisterFile("engo-xaro.proto", fileDescriptor_engo_xaro_5b780acb17b1fd55) }
 
-var fileDescriptor_engo_xaro_d728998156398b54 = []byte{
-	// 385 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x52, 0x5f, 0xeb, 0xd3, 0x30,
-	0x14, 0xfd, 0xa5, 0xbf, 0xfd, 0xe9, 0xee, 0x36, 0x27, 0x41, 0xa4, 0x1b, 0x3e, 0x94, 0x08, 0x32,
-	0x70, 0xeb, 0xc3, 0x04, 0x1f, 0xf6, 0x20, 0x32, 0x26, 0x73, 0xa2, 0x50, 0x3a, 0x04, 0x5f, 0xab,
-	0xbd, 0x96, 0x48, 0x97, 0x74, 0x69, 0x07, 0xed, 0x87, 0xf3, 0xbb, 0x49, 0xd2, 0xb5, 0xab, 0x9b,
-	0xbe, 0xe5, 0xdc, 0x7b, 0x72, 0xee, 0x39, 0xb9, 0x81, 0x09, 0x8a, 0x58, 0x2e, 0x8b, 0x50, 0x49,
-	0x2f, 0x55, 0x32, 0x97, 0xd4, 0xd6, 0x05, 0x8d, 0x19, 0x83, 0xd1, 0x47, 0x4c, 0x12, 0x19, 0xe0,
-	0xe9, 0x8c, 0x59, 0x4e, 0x29, 0x74, 0x44, 0x78, 0x44, 0x87, 0xb8, 0x64, 0x3e, 0x08, 0xcc, 0x99,
-	0xbd, 0x02, 0xb8, 0x70, 0xd2, 0xa4, 0xa4, 0x0e, 0xf4, 0x8f, 0x98, 0x65, 0x61, 0x5c, 0x93, 0x6a,
-	0xc8, 0x5e, 0x42, 0xd7, 0x97, 0x5c, 0xe4, 0x74, 0x04, 0xa4, 0x30, 0x4d, 0x2b, 0x20, 0x85, 0x46,
-	0xa5, 0x63, 0x55, 0xa8, 0x64, 0xef, 0x61, 0xe2, 0x27, 0x61, 0x89, 0xca, 0x97, 0x19, 0xcf, 0xb9,
-	0x14, 0x19, 0x5d, 0xc2, 0x20, 0xad, 0x81, 0x43, 0xdc, 0xc7, 0xf9, 0x70, 0x35, 0xf1, 0x6a, 0x87,
-	0x9e, 0x91, 0x0c, 0xae, 0x0c, 0x76, 0x82, 0x5e, 0xa5, 0x40, 0x67, 0x60, 0x7f, 0xcd, 0x50, 0xb5,
-	0x0c, 0x37, 0x98, 0x3e, 0x01, 0x6b, 0xbf, 0x35, 0x63, 0xbb, 0x81, 0xb5, 0xdf, 0x1a, 0xec, 0x3b,
-	0x8f, 0x86, 0x65, 0xed, 0x7d, 0xfa, 0x1a, 0xec, 0x5a, 0xd2, 0xe9, 0xb8, 0xe4, 0x5f, 0x33, 0x1b,
-	0x02, 0x5b, 0x80, 0xfd, 0x49, 0x72, 0xb1, 0xd3, 0xc2, 0x2e, 0x0c, 0x7f, 0x49, 0x2e, 0xbe, 0xfc,
-	0xf5, 0x06, 0xed, 0x12, 0x7b, 0x01, 0x50, 0x19, 0xfc, 0x8c, 0x3f, 0x73, 0x3d, 0x98, 0x47, 0x86,
-	0x36, 0x0e, 0x2c, 0x1e, 0xb1, 0x35, 0x8c, 0xaa, 0xae, 0x56, 0xc4, 0xe8, 0xb6, 0xaf, 0x43, 0x9d,
-	0xeb, 0x50, 0x56, 0x15, 0xaa, 0xc6, 0xab, 0xdf, 0x04, 0xfa, 0x3b, 0x85, 0x98, 0xa3, 0xa2, 0x6b,
-	0xb0, 0x0f, 0x61, 0x69, 0x16, 0x43, 0x9f, 0x5f, 0xad, 0xb7, 0xb7, 0x39, 0x7b, 0x76, 0x57, 0x4f,
-	0x93, 0x92, 0x3d, 0xd0, 0xb7, 0x00, 0xfa, 0xa1, 0x2e, 0x0e, 0x9e, 0xb6, 0x82, 0x1b, 0x67, 0xff,
-	0xbd, 0xf7, 0x0e, 0xc6, 0x07, 0x14, 0xd1, 0x75, 0x75, 0xf7, 0x57, 0xa7, 0xb7, 0x95, 0x86, 0xcc,
-	0x1e, 0x36, 0x0b, 0x98, 0x72, 0xe9, 0xc5, 0x2a, 0xfd, 0xe1, 0x61, 0x11, 0x1e, 0xd3, 0x04, 0xb3,
-	0x86, 0xbe, 0x19, 0x7f, 0x10, 0xb1, 0xfc, 0x16, 0x2a, 0xe9, 0xeb, 0x3f, 0xea, 0x93, 0xef, 0x3d,
-	0xf3, 0x59, 0xdf, 0xfc, 0x09, 0x00, 0x00, 0xff, 0xff, 0xeb, 0xb6, 0x28, 0xa8, 0xbf, 0x02, 0x00,
-	0x00,
+var fileDescriptor_engo_xaro_5b780acb17b1fd55 = []byte{
+	// 408 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x52, 0x51, 0x8b, 0x13, 0x31,
+	0x10, 0xbe, 0xa4, 0xd7, 0x6b, 0x9d, 0xde, 0xde, 0x9d, 0x41, 0x71, 0x2d, 0x22, 0x47, 0x04, 0xa9,
+	0xa8, 0xfb, 0x50, 0x1f, 0x5a, 0x0a, 0xbe, 0x94, 0xf6, 0xa1, 0x52, 0x61, 0xd9, 0x22, 0xf8, 0x1a,
+	0xdd, 0xb8, 0x04, 0xdb, 0x64, 0xcd, 0x6e, 0xeb, 0xee, 0xcf, 0xf0, 0xa7, 0xf8, 0x0f, 0x25, 0xc9,
+	0xa6, 0xad, 0xad, 0xe0, 0x53, 0xf2, 0xcd, 0x7c, 0x33, 0xdf, 0x7c, 0xc3, 0xc0, 0x2d, 0x97, 0x99,
+	0x7a, 0x5b, 0x31, 0xad, 0xa2, 0x5c, 0xab, 0x52, 0x91, 0xae, 0x09, 0x18, 0x4c, 0x5f, 0x41, 0xb0,
+	0xe2, 0x7a, 0xc7, 0xf5, 0x47, 0x5e, 0x14, 0x2c, 0xe3, 0x24, 0x84, 0xce, 0xc6, 0x7d, 0x43, 0x74,
+	0x8f, 0x06, 0x0f, 0x12, 0x0f, 0xe9, 0x0b, 0x68, 0xc7, 0x4a, 0xc8, 0x92, 0x5c, 0x03, 0xaa, 0x6c,
+	0x12, 0x27, 0xa8, 0x32, 0xa8, 0x0e, 0xb1, 0x43, 0x35, 0xfd, 0x85, 0xa0, 0x13, 0xaf, 0x59, 0xcd,
+	0x75, 0x41, 0xc6, 0xd0, 0xc9, 0xdd, 0x37, 0x44, 0xf7, 0xad, 0x41, 0x6f, 0xf8, 0x3c, 0xf2, 0xba,
+	0x51, 0xc3, 0xf1, 0xef, 0x5c, 0x96, 0xba, 0x4e, 0x3c, 0xbd, 0xbf, 0x84, 0xeb, 0xe3, 0x04, 0xb9,
+	0x83, 0xd6, 0x77, 0x5e, 0x5b, 0xcd, 0x20, 0x31, 0x5f, 0xf2, 0x12, 0xda, 0x3b, 0xb6, 0xde, 0x72,
+	0xab, 0xdc, 0x1b, 0xde, 0x9d, 0x76, 0x4e, 0x5c, 0x7a, 0x82, 0xc7, 0x88, 0xfe, 0x80, 0x2b, 0x17,
+	0x24, 0x7d, 0xe8, 0x7e, 0x2a, 0xb8, 0x96, 0x6c, 0xe3, 0xdd, 0xed, 0x31, 0xb9, 0x01, 0xbc, 0x98,
+	0xd9, 0x76, 0x41, 0x82, 0x17, 0x33, 0x8b, 0xe3, 0xb0, 0x65, 0x59, 0x78, 0x11, 0x93, 0xd7, 0xd0,
+	0xcd, 0x55, 0x21, 0x4a, 0xa1, 0x64, 0x78, 0x69, 0x45, 0x6f, 0x8f, 0x44, 0xcd, 0x62, 0x92, 0x3d,
+	0x81, 0xbe, 0x87, 0xde, 0x07, 0x25, 0xe4, 0x7f, 0x97, 0x4a, 0x1e, 0x41, 0x5b, 0xf2, 0x9f, 0x22,
+	0x6d, 0x84, 0x1d, 0xa0, 0xcf, 0x00, 0xdc, 0xc4, 0x4b, 0xfe, 0xad, 0x34, 0x93, 0x88, 0xb4, 0x31,
+	0x8f, 0x45, 0x4a, 0x27, 0x7e, 0x3b, 0x46, 0x82, 0xa7, 0xa7, 0x79, 0xe3, 0x72, 0xeb, 0x5d, 0x62,
+	0xe7, 0xd2, 0xe3, 0xe1, 0x6f, 0x04, 0x97, 0x9f, 0x99, 0x56, 0x64, 0x04, 0x60, 0xac, 0x37, 0x2d,
+	0xce, 0xf6, 0xd7, 0x7f, 0x7c, 0x88, 0x1c, 0x39, 0xa1, 0x17, 0x64, 0xe4, 0x76, 0x68, 0x27, 0x3b,
+	0x2f, 0x7b, 0x72, 0x88, 0xfc, 0x75, 0x57, 0xb6, 0xf0, 0x66, 0xc5, 0x65, 0xea, 0x88, 0x33, 0x56,
+	0xb2, 0x7f, 0x94, 0x3f, 0x3c, 0xbb, 0x10, 0x7a, 0x31, 0x7d, 0x03, 0x4f, 0x85, 0x8a, 0x32, 0x9d,
+	0x7f, 0x8d, 0x78, 0xc5, 0x36, 0xf9, 0x9a, 0x17, 0x7b, 0xda, 0x34, 0x98, 0xcb, 0x4c, 0x19, 0x47,
+	0xb1, 0xb9, 0xec, 0x18, 0x7d, 0xb9, 0xb2, 0x27, 0xfe, 0xee, 0x4f, 0x00, 0x00, 0x00, 0xff, 0xff,
+	0x83, 0x76, 0x96, 0xfc, 0xf5, 0x02, 0x00, 0x00,
 }

@@ -1,11 +1,16 @@
 package player
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
 	"engo.io/engo"
+	"github.com/damienfamed75/engo-xaro/src/communication"
+	pb "github.com/damienfamed75/engo-xaro/src/proto"
+	"google.golang.org/grpc"
 )
 
 var (
@@ -62,6 +67,28 @@ func (p *Player) updateAction(dt float32) {
 
 func (p *Player) action() {
 	fmt.Println("SHOOT ~ >>>----------|>")
+}
+
+func (p *Player) setupConnection(address string) {
+	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+
+	// Creating new Client for server
+	c := pb.NewXaroClient(conn)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 4*time.Second)
+	defer cancel()
+
+	// Set the Player's Client object to a new Client
+	p.Client = communication.NewClient(c, p.Username)
+
+	// Send the server a message that I've joined and receive a new ID
+	r, _ := c.UserJoined(ctx, p.Client.Player)
+	p.Client.Player.ID = r.Newid // Set new ID to current client
+
+	log.Println(r.Message) // Print confirmation message
 }
 
 func (p *Player) updateIdleAnimation() {

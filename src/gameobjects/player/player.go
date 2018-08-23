@@ -1,13 +1,16 @@
 package player
 
 import (
+	"context"
 	"path/filepath"
+	"time"
 
 	"engo.io/ecs"
 	"engo.io/engo"
 	"engo.io/engo/common"
 	goasperite "github.com/SolarLune/GoAseprite"
 	comm "github.com/damienfamed75/engo-xaro/src/common"
+	"github.com/damienfamed75/engo-xaro/src/communication"
 )
 
 // Player is the object that represents the client
@@ -18,6 +21,7 @@ type Player struct {
 	ShootSpeed  float32
 	MoveSpeed   float32
 	Velocity    engo.Point
+	Username    string
 
 	ecs.BasicEntity
 
@@ -29,6 +33,7 @@ type Player struct {
 
 	diff     engo.Point
 	shooting bool
+	Client   *communication.Client
 }
 
 var (
@@ -44,6 +49,7 @@ func New(w *ecs.World) *Player {
 		ShootSpeed:  0.5,
 		MoveSpeed:   120.0,
 		Scale:       4.0,
+		Username:    "Damien",
 	}
 
 	jsonPath, err := filepath.Abs("assets/graphics/player.json")
@@ -52,6 +58,7 @@ func New(w *ecs.World) *Player {
 	comm.ErrorCheck(err)
 
 	//// Setting Player Vars /////
+	p.setupConnection("98.144.164.154:8081")
 	p.Ase = goasperite.New(jsonPath, "player")
 	p.Spritesheet = common.NewSpritesheetFromFile(imagePath, int(p.Ase.FrameWidth), int(p.Ase.FrameHeight))
 	p.RenderComponent = common.RenderComponent{
@@ -83,7 +90,12 @@ func (p *Player) Update(dt float32) {
 		p.updateIdleAnimation()
 	}
 
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
 	p.Position.Add(*p.Velocity.MultiplyScalar(dt))
+	p.Client.Player.Position.X, p.Client.Player.Position.Y = p.Position.X, p.Position.Y
+	p.Client.Conn.SendPlayerData(ctx, p.Client.Player)
 	p.Drawable = p.Spritesheet.Drawable(int(p.Ase.CurrentFrame))
 }
 
