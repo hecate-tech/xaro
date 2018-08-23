@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Preparing...'
                 // Get repository
-                git 'https://github.com/Damienfamed75/engo-xaro.git'
+                // git 'https://github.com/Damienfamed75/engo-xaro.git'
                 
                 script {
                     if (isUnix()) {
@@ -25,10 +25,10 @@ pipeline {
                 
                 script {
                     if (isUnix()) {
-                        sh """cd $GOPATH/src/github.com/engo-xaro/"""
+                        // sh """cd $GOPATH/src/github.com/engo-xaro/"""
                         sh 'mage'
                     } else {
-                        bat """cd $GOPATH/src/github.com/engo-xaro/"""
+                        // bat """cd $GOPATH/src/github.com/engo-xaro/"""
                         bat 'mage'
                     }
                 }
