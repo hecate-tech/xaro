@@ -74,6 +74,11 @@ func (p *Player) Update(dt float32) {
 	p.Client.Player.Position.X, p.Client.Player.Position.Y = p.Position.X, p.Position.Y
 	p.Client.Conn.SendPlayerData(ctx, p.Client.Player)
 	p.Drawable = p.Spritesheet.Drawable(int(p.Ase.CurrentFrame))
+
+	if engo.Input.Button("quit").Down() {
+		p.Client.Conn.UserLeft(ctx, p.Client.Player)
+		engo.Exit()
+	}
 }
 
 // Remove deletes the player and player systems

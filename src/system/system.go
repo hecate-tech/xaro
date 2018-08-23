@@ -18,6 +18,8 @@ func Init() {
 	engo.Input.RegisterButton("up", engo.Key(config.Controls.Up))
 	engo.Input.RegisterButton("down", engo.Key(config.Controls.Down))
 	engo.Input.RegisterButton("menu", engo.Key(config.Controls.Menu))
+
+	engo.Input.RegisterButton("quit", engo.KeyEscape)
 }
 
 // LoadViperConfig loads up the configuration TOML file and returns a viper object
