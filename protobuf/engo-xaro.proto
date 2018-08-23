@@ -8,22 +8,17 @@ option java_outer_classname = "EngoXaroProto";
 // import "google/protobuf/timestamp.proto";
 
 // the greeting service definition
-service Greeter {
-    // sends the greeting.
-    rpc SayHello (HelloRequest) returns (HelloReply) {}
+service Xaro {
     // send the player who joined
-    rpc UserJoined (Player) returns (HelloReply) {}
+    rpc UserJoined (Player) returns (JoinMessage) {}
+    // send the player who left
+    rpc UserLeft (Player) returns (ServerMessage) {}
     // send your position and receive every position of players
-    rpc SendPositions (Player) returns (PlayerPositions) {}
-}
-
-// The request containing the user's name.
-message HelloRequest {
-    string name = 1;
+    rpc SendPlayerData (Player) returns (Players) {}
 }
 
 // The response message containing the greetings
-message HelloReply {
+message ServerMessage {
     string message = 1;
 }
 
@@ -32,20 +27,21 @@ message Point {
     float y = 2;
 }
 
-message PlayerPositions {
-    repeated Point positions = 1;
+message Players {
+    map<uint32, Player> players = 1;
 }
 
 message Player {
     string Username = 1;
-    int32 ID = 2; // UID of client
+    uint32 ID = 2; // UID of client
     string IP = 3;
 
     Point position = 4;
 }
 
-message JoinGame {
-    string joinMessage = 1;
+message JoinMessage {
+    string message = 1;
+    uint32 newid = 2;
 }
 
 message PlayerLeft {

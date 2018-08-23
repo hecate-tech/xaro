@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/damienfamed75/engo-xaro/src/communication"
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
 
 	"google.golang.org/grpc"
@@ -13,17 +14,12 @@ import (
 
 const (
 	address     = "98.144.164.154:8081"
-	defaultName = "Damien"
+	defaultName = "Imposter"
 )
 
 var (
 	// Conn is the connection
-	Conn       *grpc.ClientConn
-	testPlayer = &pb.Player{
-		ID:       4321,
-		IP:       "153.164.23.673",
-		Position: &pb.Point{X: 1, Y: 1},
-	}
+	Conn *grpc.ClientConn
 )
 
 func main() {
@@ -31,30 +27,43 @@ func main() {
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
+
 	//defer closeConn()
-	c := pb.NewGreeterClient(Conn)
+	c := pb.NewXaroClient(Conn)
 
 	name := defaultName
 	if len(os.Args) > 1 {
 		name = os.Args[1]
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
 
-	testPlayer.Username = name
-	r, _ := c.UserJoined(ctx, testPlayer)
+	client := communication.NewClient(c, name)
+
+	r, _ := c.UserJoined(ctx, client.Player)
 	log.Printf("Join Message: %s", r.Message)
 
+	cancel()
 	for {
 		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-		testPlayer.Position.X++
-		log.Println("tp:", testPlayer.Position.X)
+		client.Player.Position.X++
 
-		r, _ := c.SendPositions(ctx, testPlayer)
-		log.Printf("%v", r.Positions)
-		time.Sleep(2 * time.Second)
+		r, _ := c.SendPlayerData(ctx, client.Player)
+		for _, p := range r.Players {
+			log.Printf("Player %v: {%v, %v}", p.Username, p.Position.GetX(), p.Position.GetY())
+		}
+
+		time.Sleep(1 * time.Second)
 		cancel()
+		if client.Player.Position.X > 20 {
+			break
+		}
 	}
+
+	ctx, cancel = context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	c.UserLeft(ctx, client.Player)
+
 	/* Pseudo code
 	for {
 		send the server my player's global position (x,y)
