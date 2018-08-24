@@ -23,15 +23,18 @@ pipeline {
             steps {    
                 echo 'Building...'
                 
-                // script {
-                //     if (isUnix()) {
-                //         // sh """cd $GOPATH/src/github.com/engo-xaro/"""
-                //         sh 'mage'
-                //     } else {
-                //         // bat """cd $GOPATH/src/github.com/engo-xaro/"""
-                //         bat 'mage'
-                //     }
-                // }
+                
+                script {
+                    if (isUnix()) {
+                        sh 'dep ensure'
+                        sh 'go build -o Xaro .'
+                        // sh 'mage'
+                    } else {
+                        bat 'dep ensure'
+                        bat 'go build -o Xaro.exe .'
+                        // bat 'mage'
+                    }
+                }
             }
         }
         stage('Test') {
