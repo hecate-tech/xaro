@@ -23,6 +23,9 @@ pipeline {
                 //         bat 'go get github.com/magefile/file'
                 //     }
                 // }
+                
+                mkdir -p $GOPATH/src/github.com/damienfamed75/engo-xaro
+                ln -s $WORKSPACE $GOPATH/src/github.com/damienfamed75/engo-xaro
             }
         }
         stage('Build') {
@@ -32,11 +35,11 @@ pipeline {
                 
                 script {
                     if (isUnix()) {
-                        sh 'dep ensure'
+                        sh 'dep init'
                         sh 'go build -o Xaro .'
                         // sh 'mage'
                     } else {
-                        bat 'dep ensure'
+                        bat 'dep init'
                         bat 'go build -o Xaro.exe .'
                         // bat 'mage'
                     }
