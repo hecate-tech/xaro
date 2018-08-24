@@ -34,6 +34,23 @@ node('docker') {
     // Archive the binary files in Jenkins so we can retrieve them later should we need to audit them
     archiveArtifacts artifacts: 'binaries/**', fingerprint: true
   }
+
+  stage("Publish to Artifactory") {
+    // create a Artifactory server reference with some credentials we stored in Jenkins already
+    def server = Artifactory.newServer url: 'http://artifactory.example.com/artifactory', credentialsId: 'artifactory-credentials'
+    // Upload spec is a definition for the Artifactory plugin to tell it how and what to upload, and where in Artifactory it should go
+    def uploadSpec = """{
+      "files": [
+        {
+          "pattern": "binaries/*",
+          "target": "generic-local/golang/${applicationName}/",
+          "flat": false
+        }
+     ]
+    }"""
+    // perform the upload
+    server.upload(uploadSpec)
+}
 }
 
 // pipeline {
