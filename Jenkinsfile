@@ -1,12 +1,6 @@
 pipeline {
     agent any
 
-    String applicationName = "engo-xaro"
-    // a basic build number so that when we build and push to Artifactory we will not overwrite our previous builds
-    String buildNumber = "0.1.${env.BUILD_NUMBER}"
-    // Path we will mount the project to for the Docker container
-    String goPath = "/go/src/github.com/damienfamed75/${applicationName}"
-
     stages {
         stage('Checkout from Github') {
             steps {
