@@ -12,6 +12,12 @@ You'll need to install [engo](https://engo.io/) and [mage](https://github.com/ma
 
 ### Installing
 
+Install the repository directly into your gopath using this command.
+
+```
+go get -v github.com/damienfamed75/engo-xaro
+```
+
 Once you have the two dependencies installed then you can direct your terminal to the root directory of the project and with your gopath bin folder set as an environment variable for `PATH` you'll be able to use the `mage` command.
 
 ```
