@@ -35,12 +35,11 @@ type Player struct {
 
 	diff     engo.Point
 	shooting bool
-	// Client   *communication.Client
 }
 
 // New is used to create a new player
 func New(w *ecs.World) *Player {
-	_, config := system.LoadViperConfig("/config/")
+	_, config := system.LoadViperConfig()
 
 	p := &Player{
 		BasicEntity: ecs.NewBasic(),
@@ -56,16 +55,12 @@ func New(w *ecs.World) *Player {
 	comm.ErrorCheck(err)
 
 	//// Setting Player Vars /////
-
 	p.Ase = goasperite.New(jsonPath)
-
 	p.Spritesheet = common.NewSpritesheetFromFile(imagePath, int(p.Ase.FrameWidth), int(p.Ase.FrameHeight))
-
 	p.RenderComponent = common.RenderComponent{
 		Drawable: p.Spritesheet.Drawable(0),
 		Scale:    engo.Point{X: p.Scale, Y: p.Scale},
 	}
-
 	p.SpaceComponent = common.SpaceComponent{
 		Position: engo.Point{X: 0, Y: 0},
 		Width:    p.Spritesheet.Width() * p.RenderComponent.Scale.X,
@@ -91,18 +86,8 @@ func (p *Player) Update(dt float32) {
 		p.updateIdleAnimation()
 	}
 
-	// ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	// defer cancel()
-
 	p.Position.Add(*p.Velocity.MultiplyScalar(dt))
-	// p.Client.Player.Position.X, p.Client.Player.Position.Y = p.Position.X, p.Position.Y
-	// p.Client.Conn.SendPlayerData(ctx, p.Client.Player)
 	p.Drawable = p.Spritesheet.Drawable(int(p.Ase.CurrentFrame))
-
-	// if engo.Input.Button("quit").Down() {
-	// 	p.Client.Conn.UserLeft(ctx, p.Client.Player)
-	// 	engo.Exit()
-	// }
 }
 
 // Remove deletes the player and player systems

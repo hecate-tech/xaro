@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	_, config := system.LoadViperConfig("/config/")
+	_, config := system.LoadViperConfig()
 
 	opts := engo.RunOptions{
 		Title:         "Xaro",

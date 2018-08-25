@@ -55,7 +55,7 @@ func (m *Manager) Update(float32) {
 
 // EstablishConnection connects to selected server
 func (m *Manager) EstablishConnection() {
-	_, config := system.LoadViperConfig("/config/")
+	_, config := system.LoadViperConfig()
 
 	conn, err := grpc.Dial(config.Connection.GetAddress())
 	common.ErrorCheck(err)
@@ -82,7 +82,7 @@ func (m *Manager) TerminateConnection() {
 	defer cancel()
 
 	m.Client.Conn.UserLeft(ctx, m.Client.Player)
-	engo.Exit()
+	engo.Exit() // Currently exits program once disconnected
 }
 
 // GetPlayers returns all recorded clients on the server.

@@ -17,8 +17,8 @@ type window struct {
 }
 
 type settings struct {
-	SoundVolume float32
-	MusicVolume float32
+	SoundVolume float64
+	MusicVolume float64
 }
 
 type controls struct {

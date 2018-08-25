@@ -64,26 +64,6 @@ func (p *Player) action() {
 	fmt.Println("SHOOT ~ >>>----------|>")
 }
 
-// func (p *Player) setupConnection(address string) {
-// 	conn, err := grpc.Dial(address, grpc.WithInsecure())
-// 	common.ErrorCheck(err)
-
-// 	// Creating new Client for server
-// 	c := pb.NewXaroClient(conn)
-
-// 	ctx, cancel := context.WithTimeout(context.Background(), 4*time.Second)
-// 	defer cancel()
-
-// 	// Set the Player's Client object to a new Client
-// 	p.Client = communication.NewClient(c, p.Username)
-
-// 	// Send the server a message that I've joined and receive a new ID
-// 	r, _ := c.UserJoined(ctx, p.Client.Player)
-// 	p.Client.Player.ID = r.Newid // Set new ID to current client
-
-// 	log.Println(r.Message) // Print confirmation message
-// }
-
 func (p *Player) updateIdleAnimation() {
 	if p.Velocity.Equal(engo.Point{}) {
 		p.Ase.Play(getCurrentDirection(p.Ase.CurrentAnimation.Name) + "idle")

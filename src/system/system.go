@@ -5,12 +5,17 @@ import (
 	"os"
 
 	"engo.io/engo"
+	com "engo.io/engo/common"
+	"github.com/damienfamed75/engo-xaro/src/common"
 	"github.com/spf13/viper"
 )
 
 // Init initializes controls and other configurations when starting the window
 func Init() {
-	_, config := LoadViperConfig("/config/")
+	_, config := LoadViperConfig()
+
+	//// Setting Volumes Settings ////
+	com.SetMasterVolume(config.Settings.SoundVolume)
 
 	//// Registering Buttons /////
 	engo.Input.RegisterButton("left", engo.Key(config.Controls.Left))
@@ -18,14 +23,14 @@ func Init() {
 	engo.Input.RegisterButton("up", engo.Key(config.Controls.Up))
 	engo.Input.RegisterButton("down", engo.Key(config.Controls.Down))
 	engo.Input.RegisterButton("menu", engo.Key(config.Controls.Menu))
-
 	engo.Input.RegisterButton("quit", engo.KeyEscape)
 }
 
 // LoadViperConfig loads up the configuration TOML file and returns a viper object
-func LoadViperConfig(file string) (*viper.Viper, Configuration) {
+func LoadViperConfig() (*viper.Viper, Configuration) {
 	v := viper.New()
-	wd, _ := os.Getwd()
+	wd, err := os.Getwd()
+	common.ErrorCheck(err)
 
 	v.SetConfigName("config.development")
 	v.AddConfigPath("$HOME/.go-xaro")
@@ -33,9 +38,10 @@ func LoadViperConfig(file string) (*viper.Viper, Configuration) {
 	v.AddConfigPath("$GOPATH/src/github.com/engo-xaro/config/")
 	v.AddConfigPath("$GOPATH/src/damienfamed75/engo-xaro/config/")
 	v.AddConfigPath("$GOPATH/src/engo-xaro/config/")
-	v.AddConfigPath(wd + file)
+	v.AddConfigPath(wd + "/config/")
 	v.AddConfigPath(".")
-	v.AddConfigPath(file)
+	v.AddConfigPath(wd)
+
 	if err := v.ReadInConfig(); err != nil {
 		panic(fmt.Errorf("fatal error config file: %s", err))
 	}
