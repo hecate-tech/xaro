@@ -52,15 +52,10 @@
   revision = "ef8a98b0bbce4a65b5aa4c368430a80ddc533168"
 
 [[projects]]
-  digest = "1:b45e2b43a43cc0508c702570a517b24088383041ff5665d7a6ddcd250410cd5f"
+  digest = "1:8c9a01ae56c37fcfa5fceb8a476351293b5fd68370bd45bb4f2af4bb1f4cd164"
   name = "github.com/magefile/mage"
   packages = [
-    "build",
-    "mage",
     "mg",
-    "parse",
-    "parse/srcimporter",
-    "sh",
     "types",
   ]
   pruneopts = "UT"
@@ -256,7 +251,6 @@
   input-imports = [
     "github.com/SolarLune/GoAseprite",
     "github.com/golang/protobuf/proto",
-    "github.com/magefile/mage/mage",
     "github.com/magefile/mage/mg",
     "github.com/spf13/viper",
     "golang.org/x/net/context",

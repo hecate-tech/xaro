@@ -3,6 +3,7 @@ package scenes
 import (
 	"image/color"
 
+	"github.com/damienfamed75/engo-xaro/src/gameobjects/manager"
 	"github.com/damienfamed75/engo-xaro/src/gameobjects/player"
 	"github.com/damienfamed75/engo-xaro/src/system"
 
@@ -36,16 +37,16 @@ func (*Nexus) Setup(u engo.Updater) {
 	w.AddSystem(&common.MouseSystem{})
 
 	//// Player Setup /////
-	p := playerNew(w)
-	p.Position = spawnPosition
+	m := manager.New(w)
+	m.Player.Position = spawnPosition
 
 	//// System Setup ////
 	for _, system := range w.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
-			sys.Add(&p.BasicEntity, &p.RenderComponent, &p.SpaceComponent)
+			sys.Add(&m.Player.BasicEntity, &m.Player.RenderComponent, &m.Player.SpaceComponent)
 		case *common.MouseSystem:
-			sys.Add(&p.BasicEntity, &p.MouseComponent, &p.SpaceComponent, &p.RenderComponent)
+			sys.Add(&m.Player.BasicEntity, &m.Player.MouseComponent, &m.Player.SpaceComponent, &m.Player.RenderComponent)
 		}
 	}
 
