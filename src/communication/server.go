@@ -49,7 +49,7 @@ func (s *Server) SendPlayerData(ctx context.Context, in *pb.Player) (*pb.Players
 		return nil, errors.New("in SendPlayerData 'map[uint32]*pb.Player clients' did not have player {" + in.Username + "," + string(in.ID) + "} inside")
 	}
 
-	s.clients[in.ID] = in
+	s.clients[in.ID].Position = in.Position
 
 	var players = &pb.Players{
 		Players: s.clients,

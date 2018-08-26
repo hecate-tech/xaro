@@ -47,54 +47,49 @@ func (m *Manager) Update(float32) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	m.Client.Player.Position.X, m.Client.Player.Position.Y = m.Player.Position.X, m.Player.Position.Y
+	m.Client.UpdatePosition(m.Player.Position.X, m.Player.Position.Y)
 	sPlayers, err := m.Client.Conn.SendPlayerData(ctx, m.Client.GetPlayer())
-
-	// Check if players connected and if so then create new player in game.
-	for i, p := range sPlayers.Players {
-		if i != m.Client.Player.ID {
-			_, ok := m.ServerPlayers[i]
-			if !ok {
-				m.ServerPlayers[i] = player.New(m.world)
-				m.ServerPlayers[i].IsPlaying = false
-
-				for _, system := range m.world.Systems() {
-					switch sys := system.(type) {
-					case *comm.RenderSystem:
-						sys.Add(&m.ServerPlayers[i].BasicEntity, &m.ServerPlayers[i].RenderComponent, &m.ServerPlayers[i].SpaceComponent)
-					}
-				}
-			}
-			m.ServerPlayers[i].Position.Set(p.Position.X, p.Position.Y)
-		}
-	}
-
-	// Check if players disconnected and if so delete them from game.
-	for ID := range m.ServerPlayers {
-		if ID != m.Client.Player.ID {
-			var found bool
-			for sID := range sPlayers.Players {
-				_, ok := m.ServerPlayers[sID]
-				if ok {
-					found = true
-				}
-			}
-			if !found {
-				fmt.Println("deleting", ID)
-
-				for _, system := range m.world.Systems() {
-					switch sys := system.(type) {
-					case *comm.RenderSystem:
-						sys.Remove(m.ServerPlayers[ID].BasicEntity)
-					}
-				}
-
-				delete(m.ServerPlayers, ID)
-			}
-		}
-	}
-
 	common.ErrorCheck("error sending player data to server:", err)
+
+	for sID, sP := range sPlayers.Players {
+		if sID != m.Client.Player.ID {
+			if _, ok := m.ServerPlayers[sID]; !ok {
+				m.ServerPlayers[sID] = player.New(m.world)
+				m.ServerPlayers[sID].IsPlaying = false
+
+				log.Println(m.ServerPlayers[sID].Username, "has connected...")
+
+				for _, system := range m.world.Systems() {
+					switch sys := system.(type) {
+					case *comm.RenderSystem:
+						sys.Add(&m.ServerPlayers[sID].BasicEntity, &m.ServerPlayers[sID].RenderComponent, &m.ServerPlayers[sID].SpaceComponent)
+					}
+				}
+			}
+			m.ServerPlayers[sID].Position.Set(sP.GetPosition().X, sP.GetPosition().Y)
+		}
+	}
+
+	for ID := range m.ServerPlayers {
+		var found bool
+		for sID := range sPlayers.Players {
+			if _, ok := m.ServerPlayers[sID]; ok {
+				found = true
+			}
+		}
+		if !found {
+			log.Println(m.ServerPlayers[ID].Username, "has disconnected...")
+
+			for _, system := range m.world.Systems() {
+				switch sys := system.(type) {
+				case *comm.RenderSystem:
+					sys.Remove(m.ServerPlayers[ID].BasicEntity)
+				}
+			}
+
+			delete(m.ServerPlayers, ID)
+		}
+	}
 
 	if engo.Input.Button("quit").Down() {
 		m.TerminateConnection()
