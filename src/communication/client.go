@@ -2,9 +2,9 @@ package communication
 
 import (
 	"io/ioutil"
-	"log"
 	"net/http"
 
+	"github.com/damienfamed75/engo-xaro/src/common"
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
 )
 
@@ -49,15 +49,12 @@ func (c *Client) GetPlayer() *pb.Player {
 
 func getPublicIP() string {
 	resp, err := http.Get("http://ipv4.myexternalip.com/raw")
-	if err != nil {
-		log.Fatalln("failed to fetch ip:", err)
-	}
+	common.ErrorCheck("failed to fetch ip:", err)
+
 	defer resp.Body.Close()
 
 	htmlData, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln("failed to read html page:", err)
-	}
+	common.ErrorCheck("failed to read html page:", err)
 
 	return string(htmlData)
 }

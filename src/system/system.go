@@ -1,7 +1,6 @@
 package system
 
 import (
-	"fmt"
 	"os"
 
 	"engo.io/engo"
@@ -14,10 +13,10 @@ import (
 func Init() {
 	_, config := LoadViperConfig()
 
-	//// Setting Volumes Settings ////
+	// Setting Volume Settings...
 	com.SetMasterVolume(config.Settings.SoundVolume)
 
-	//// Registering Buttons /////
+	// Registering Buttons...
 	engo.Input.RegisterButton("left", engo.Key(config.Controls.Left))
 	engo.Input.RegisterButton("right", engo.Key(config.Controls.Right))
 	engo.Input.RegisterButton("up", engo.Key(config.Controls.Up))
@@ -29,23 +28,23 @@ func Init() {
 // LoadViperConfig loads up the configuration TOML file and returns a viper object
 func LoadViperConfig() (*viper.Viper, Configuration) {
 	v := viper.New()
-	wd, err := os.Getwd()
-	common.ErrorCheck(err)
+	var c Configuration
 
+	wd, err := os.Getwd()
+	common.ErrorCheck("cannot find working directory:", err)
+
+	// Adding config paths...
 	v.SetConfigName("config.development")
 	v.AddConfigPath("$HOME/.go-xaro")
 	v.AddConfigPath(wd + "/config/")
 	v.AddConfigPath(".")
 	v.AddConfigPath(wd)
 
-	if err := v.ReadInConfig(); err != nil {
-		panic(fmt.Errorf("fatal error config file: %s", err))
-	}
+	err = v.ReadInConfig()
+	common.ErrorCheck("unable to read in config file from selected paths:", err)
 
-	var c Configuration
-	if err := v.Unmarshal(&c); err != nil {
-		fmt.Printf("couldn't read config: %s", err)
-	}
+	err = v.Unmarshal(&c)
+	common.ErrorCheck("unable to unmarshal config file:", err)
 
 	return v, c
 }
@@ -53,7 +52,9 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 // ChangeConfig updates the current config file's value
 func ChangeConfig(v *viper.Viper, key string, value interface{}) {
 	v.Set(key, value)
-	if err := v.WriteConfig(); err != nil {
-		fmt.Printf("couldn't write config: %s", err)
-	}
+	err := v.WriteConfig()
+	common.ErrorCheck("unable to write to config:", err)
+	// if err := v.WriteConfig(); err != nil {
+	// 	fmt.Printf("couldn't write config: %s", err)
+	// }
 }

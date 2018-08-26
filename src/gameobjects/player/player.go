@@ -26,6 +26,7 @@ type Player struct {
 	MoveSpeed   float32
 	Velocity    engo.Point
 	Username    string
+	IsPlaying   bool
 
 	ecs.BasicEntity
 
@@ -47,16 +48,16 @@ func New(w *ecs.World) *Player {
 		MoveSpeed:   120.0,
 		Scale:       4.0,
 		Username:    config.PlayerData.Username,
+		IsPlaying:   true,
 	}
 
 	jsonPath, err := filepath.Abs("assets/graphics/player.json")
-	comm.ErrorCheck(err)
+	comm.ErrorCheck("filepath.Abs failed to output dir:", err)
 	err = engo.Files.Load(imagePath)
-	comm.ErrorCheck(err)
+	comm.ErrorCheck("failed to load image in engo:", err)
 
-	//// Setting Player Vars /////
+	// Setting Up Player Variables...
 	p.Ase = goasperite.New(jsonPath)
-
 	p.Spritesheet = common.NewSpritesheetFromFile(imagePath, int(p.Ase.FrameWidth), int(p.Ase.FrameHeight))
 	p.RenderComponent = common.RenderComponent{
 		Drawable: p.Spritesheet.Drawable(0),
@@ -76,6 +77,9 @@ func New(w *ecs.World) *Player {
 
 // Update gets called every frame
 func (p *Player) Update(dt float32) {
+	if !p.IsPlaying {
+		return
+	}
 	p.Ase.Update(dt)
 	p.Velocity.Set(0, 0)
 
