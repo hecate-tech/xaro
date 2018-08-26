@@ -2,6 +2,7 @@ package communication
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
@@ -24,19 +25,30 @@ func NewServer() *Server {
 
 // UserJoined returns a printed message and replies to user
 func (s *Server) UserJoined(ctx context.Context, in *pb.Player) (*pb.JoinMessage, error) {
+	if in == nil {
+		return nil, errors.New("in UserJoined 'in' was passed in as nil")
+	}
+
 	newID := s.idManager.NextPlayerID()
-	in.ID = newID
-	s.clients[in.ID] = in
-	log.Println("IN:", in.ID)
-	log.Println("NEW:", newID)
+	s.clients[newID] = in
 
 	log.Printf("%v (%v) has joined the game with IP: %v", in.Username, in.ID, in.IP)
 	log.Printf("%v players connected.\n", len(s.clients))
+
 	return &pb.JoinMessage{Message: "You have connected to server...", Newid: newID}, nil
 }
 
 // SendPlayerData you send your current position and are returned with the other player's positions
 func (s *Server) SendPlayerData(ctx context.Context, in *pb.Player) (*pb.Players, error) {
+	if in == nil {
+		return nil, errors.New("in SendPlayerData 'in' was passed in as nil")
+	}
+
+	_, ok := s.clients[in.ID]
+	if !ok {
+		return nil, errors.New("in SendPlayerData 'map[uint32]*pb.Player clients' did not have player {" + in.Username + "," + string(in.ID) + "} inside")
+	}
+
 	s.clients[in.ID] = in
 
 	var players = &pb.Players{
@@ -52,6 +64,9 @@ func (s *Server) SendPlayerData(ctx context.Context, in *pb.Player) (*pb.Players
 
 // UserLeft removes player once they leave
 func (s *Server) UserLeft(ctx context.Context, in *pb.Player) (*pb.ServerMessage, error) {
+	if in == nil {
+		return nil, errors.New("in UserLeft 'in' was passed in as nil")
+	}
 	_, ok := s.clients[in.ID]
 	if ok {
 		delete(s.clients, in.ID)

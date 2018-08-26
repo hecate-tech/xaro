@@ -53,6 +53,7 @@ func (p *Player) updateAction(dt float32) {
 	p.Ase.PlaySpeed = p.ShootSpeed
 	p.Ase.Play(getCurrentDirection(p.Ase.CurrentAnimation.Name) + "action")
 
+	// Check if timer has run out and action if so. If not then continue.
 	if timeStamp += int64(dt); timeStamp <= time.Now().UnixNano()/int64(time.Millisecond) {
 		nextActionTime := int64((float32(p.Ase.CurrentAnimation.End-(p.Ase.CurrentAnimation.Start-1)) * 100) / p.ShootSpeed)
 		timeStamp = time.Now().UnixNano()/int64(time.Millisecond) + nextActionTime

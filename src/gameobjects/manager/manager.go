@@ -46,7 +46,8 @@ func (m *Manager) Update(float32) {
 	defer cancel()
 
 	m.Client.Player.Position.X, m.Client.Player.Position.Y = m.Player.Position.X, m.Player.Position.Y
-	m.Client.Conn.SendPlayerData(ctx, m.Client.GetPlayer())
+	_, err := m.Client.Conn.SendPlayerData(ctx, m.Client.GetPlayer())
+	common.ErrorCheck(err)
 
 	if engo.Input.Button("quit").Down() {
 		m.TerminateConnection()
@@ -70,7 +71,9 @@ func (m *Manager) EstablishConnection() {
 	m.Client = communication.NewClient(c, m.Player.Username)
 
 	// Send the server a message that I've joined and reeive a new ID
-	r, _ := c.UserJoined(ctx, m.Client.Player)
+	r, err := c.UserJoined(ctx, m.Client.Player)
+	common.ErrorCheck(err)
+
 	m.Client.Player.ID = r.Newid // Set new ID to current client.
 
 	log.Println(r.Message)
@@ -81,7 +84,9 @@ func (m *Manager) TerminateConnection() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	m.Client.Conn.UserLeft(ctx, m.Client.Player)
+	_, err := m.Client.Conn.UserLeft(ctx, m.Client.Player)
+	common.ErrorCheck(err)
+
 	engo.Exit() // Currently exits program once disconnected
 }
 
