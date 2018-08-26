@@ -195,7 +195,7 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.8-x64",
-  "image": "D:\\gocode\\src\\github.com\\damienfamed75\\go-xaro\\assets\\graphics\\player.png",
+  "image": "assets/graphics/player.png",
   "format": "RGBA8888",
   "size": { "w": 384, "h": 16 },
   "scale": "1",

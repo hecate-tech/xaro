@@ -34,10 +34,6 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 
 	v.SetConfigName("config.development")
 	v.AddConfigPath("$HOME/.go-xaro")
-	v.AddConfigPath("$GOPATH/src/github.com/damienfamed75/engo-xaro/config/")
-	v.AddConfigPath("$GOPATH/src/github.com/engo-xaro/config/")
-	v.AddConfigPath("$GOPATH/src/damienfamed75/engo-xaro/config/")
-	v.AddConfigPath("$GOPATH/src/engo-xaro/config/")
 	v.AddConfigPath(wd + "/config/")
 	v.AddConfigPath(".")
 	v.AddConfigPath(wd)

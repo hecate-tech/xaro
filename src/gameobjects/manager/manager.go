@@ -58,7 +58,7 @@ func (m *Manager) Update(float32) {
 func (m *Manager) EstablishConnection() {
 	_, config := system.LoadViperConfig()
 
-	conn, err := grpc.Dial(config.Connection.GetAddress())
+	conn, err := grpc.Dial(config.Connection.GetAddress(), grpc.WithInsecure())
 	common.ErrorCheck(err)
 
 	// Creating new client for server

@@ -11,8 +11,8 @@ title = "Development Configuration"
   fullscreen = false
 
 [settings]
-  SoundVolume = 1.0
-  MusicVolume = 1.0
+  SoundVolume = 0.5
+  MusicVolume = 0.5
 
 [controls]
   left = 65

@@ -6,7 +6,7 @@ import (
 	"engo.io/ecs"
 	"engo.io/engo"
 	"engo.io/engo/common"
-	goasperite "github.com/SolarLune/GoAseprite"
+	goasperite "github.com/damienfamed75/GoAseprite"
 	comm "github.com/damienfamed75/engo-xaro/src/common"
 	"github.com/damienfamed75/engo-xaro/src/system"
 )
@@ -56,6 +56,7 @@ func New(w *ecs.World) *Player {
 
 	//// Setting Player Vars /////
 	p.Ase = goasperite.New(jsonPath)
+
 	p.Spritesheet = common.NewSpritesheetFromFile(imagePath, int(p.Ase.FrameWidth), int(p.Ase.FrameHeight))
 	p.RenderComponent = common.RenderComponent{
 		Drawable: p.Spritesheet.Drawable(0),

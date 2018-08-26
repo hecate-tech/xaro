@@ -3,11 +3,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:feae89eac971fad22ecab661d52b1b753cd7ccd2134b50d1618055cbb913b86e"
-  name = "github.com/SolarLune/GoAseprite"
+  digest = "1:e99d32c39673ff9f72745da95685fb9caaa48b7663560ffe93bdc668df93bc3f"
+  name = "github.com/damienfamed75/GoAseprite"
   packages = ["."]
   pruneopts = "UT"
-  revision = "938ce013de6a277522a8dec5447d6281e81c0c0c"
+  revision = "a959a04241102c08b0cce900f73b5146f6e10e35"
 
 [[projects]]
   digest = "1:abeb38ade3f32a92943e5be54f55ed6d6e3b6602761d74b4aab4c9dd45c18abd"
@@ -249,7 +249,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/SolarLune/GoAseprite",
+    "github.com/damienfamed75/GoAseprite",
     "github.com/golang/protobuf/proto",
     "github.com/magefile/mage/mg",
     "github.com/spf13/viper",
