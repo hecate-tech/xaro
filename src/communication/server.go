@@ -45,23 +45,14 @@ func (s *Server) SendPlayerData(ctx context.Context, in *pb.Player) (*pb.Players
 		return nil, errors.New("in SendPlayerData 'in' was passed in as nil")
 	}
 
-	_, ok := s.clients[in.ID]
-	if !ok {
+	if _, ok := s.clients[in.ID]; !ok {
 		return nil, errors.New("in SendPlayerData 'map[uint32]*pb.Player clients' did not have player {" + in.Username + "," + string(in.ID) + "} inside")
 	}
 
 	s.clients[in.ID].Position = in.Position
 	s.clients[in.ID].AnimName = in.AnimName
 
-	var players = &pb.Players{
-		Players: s.clients,
-	}
-
-	for _, p := range players.Players {
-		log.Printf("Player %v (%v): {%v, %v}", p.Username, p.ID, p.Position.GetX(), p.Position.GetY())
-	}
-
-	return players, nil
+	return &pb.Players{Players: s.clients}, nil
 }
 
 // UserLeft removes player once they leave
@@ -69,10 +60,11 @@ func (s *Server) UserLeft(ctx context.Context, in *pb.Player) (*pb.ServerMessage
 	if in == nil {
 		return nil, errors.New("in UserLeft 'in' was passed in as nil")
 	}
-	_, ok := s.clients[in.ID]
-	if ok {
+
+	if _, ok := s.clients[in.ID]; ok {
 		delete(s.clients, in.ID)
 	}
+
 	log.Printf("%v (%v) has left the game with IP: %v\n", in.Username, in.ID, in.IP)
 	return &pb.ServerMessage{Message: "You have disconnected from server..."}, nil
 }

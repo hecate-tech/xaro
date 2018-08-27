@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"engo.io/ecs"
@@ -67,12 +68,15 @@ func (m *Manager) Update(dt float32) {
 					}
 				}
 			}
-			fmt.Println(sP.AnimName)
 			m.ServerPlayers[sID].Position.Set(sP.GetPosition().X, sP.GetPosition().Y)
 			m.ServerPlayers[sID].Ase.Play(sP.AnimName)
 			m.ServerPlayers[sID].Ase.Update(dt)
-			m.ServerPlayers[sID].Ase.PlaySpeed = m.ServerPlayers[sID].ShootSpeed
 			m.ServerPlayers[sID].Drawable = m.ServerPlayers[sID].Spritesheet.Drawable(int(m.ServerPlayers[sID].Ase.CurrentFrame))
+			if strings.Contains(m.ServerPlayers[sID].Ase.CurrentAnimation.Name, "action") {
+				m.ServerPlayers[sID].Ase.PlaySpeed = m.ServerPlayers[sID].ShootSpeed
+			} else {
+				m.ServerPlayers[sID].Ase.PlaySpeed = 1.0
+			}
 		}
 	}
 
