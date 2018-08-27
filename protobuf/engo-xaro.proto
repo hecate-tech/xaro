@@ -47,6 +47,8 @@ message Player {
     string IP = 3;
 
     Point position = 4;
+
+    string AnimName = 5;
 }
 
 message JoinMessage {

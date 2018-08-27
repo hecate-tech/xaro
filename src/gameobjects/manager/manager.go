@@ -43,11 +43,12 @@ func New(w *ecs.World) *Manager {
 }
 
 // Update gets called every frame.
-func (m *Manager) Update(float32) {
+func (m *Manager) Update(dt float32) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
 	m.Client.UpdatePosition(m.Player.Position.X, m.Player.Position.Y)
+	m.Client.Player.AnimName = m.Player.Ase.CurrentAnimation.Name
 	sPlayers, err := m.Client.Conn.SendPlayerData(ctx, m.Client.GetPlayer())
 	common.ErrorCheck("error sending player data to server:", err)
 
@@ -66,7 +67,12 @@ func (m *Manager) Update(float32) {
 					}
 				}
 			}
+			fmt.Println(sP.AnimName)
 			m.ServerPlayers[sID].Position.Set(sP.GetPosition().X, sP.GetPosition().Y)
+			m.ServerPlayers[sID].Ase.Play(sP.AnimName)
+			m.ServerPlayers[sID].Ase.Update(dt)
+			m.ServerPlayers[sID].Ase.PlaySpeed = m.ServerPlayers[sID].ShootSpeed
+			m.ServerPlayers[sID].Drawable = m.ServerPlayers[sID].Spritesheet.Drawable(int(m.ServerPlayers[sID].Ase.CurrentFrame))
 		}
 	}
 

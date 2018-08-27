@@ -31,6 +31,7 @@ func (s *Server) UserJoined(ctx context.Context, in *pb.Player) (*pb.JoinMessage
 
 	newID := s.idManager.NextPlayerID()
 	s.clients[newID] = in
+	s.clients[newID].AnimName = "downidle"
 
 	log.Printf("%v (%v) has joined the game with IP: %v", in.Username, in.ID, in.IP)
 	log.Printf("%v players connected.\n", len(s.clients))
@@ -50,6 +51,7 @@ func (s *Server) SendPlayerData(ctx context.Context, in *pb.Player) (*pb.Players
 	}
 
 	s.clients[in.ID].Position = in.Position
+	s.clients[in.ID].AnimName = in.AnimName
 
 	var players = &pb.Players{
 		Players: s.clients,
