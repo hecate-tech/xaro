@@ -33,7 +33,7 @@ func (s *Server) UserJoined(ctx context.Context, in *pb.Player) (*pb.JoinMessage
 	s.clients[newID] = in
 	s.clients[newID].AnimName = "downidle"
 
-	log.Printf("%v (%v) has joined the game with IP: %v", in.Username, in.ID, in.IP)
+	log.Printf("%v (%v) has joined the game with IP: %v", in.Username, newID, in.IP)
 	log.Printf("%v players connected.\n", len(s.clients))
 
 	return &pb.JoinMessage{Message: "You have connected to server...", Newid: newID}, nil
@@ -52,7 +52,14 @@ func (s *Server) SendPlayerData(ctx context.Context, in *pb.Player) (*pb.Players
 	s.clients[in.ID].Position = in.Position
 	s.clients[in.ID].AnimName = in.AnimName
 
-	return &pb.Players{Players: s.clients}, nil
+	sPlayers := &pb.Players{Players: make(map[uint32]*pb.Player)}
+	for i, c := range s.clients {
+		if c.ID != in.ID {
+			sPlayers.Players[i] = c
+		}
+	}
+
+	return sPlayers, nil
 }
 
 // UserLeft removes player once they leave

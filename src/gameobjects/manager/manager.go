@@ -4,12 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"strings"
 	"time"
 
 	"engo.io/ecs"
 	"engo.io/engo"
-	comm "engo.io/engo/common"
 	"github.com/damienfamed75/engo-xaro/src/common"
 	"github.com/damienfamed75/engo-xaro/src/communication"
 	"github.com/damienfamed75/engo-xaro/src/gameobjects/player"
@@ -53,53 +51,8 @@ func (m *Manager) Update(dt float32) {
 	sPlayers, err := m.Client.Conn.SendPlayerData(ctx, m.Client.GetPlayer())
 	common.ErrorCheck("error sending player data to server:", err)
 
-	for sID, sP := range sPlayers.Players {
-		if sID != m.Client.Player.ID {
-			if _, ok := m.ServerPlayers[sID]; !ok {
-				m.ServerPlayers[sID] = player.New(m.world)
-				m.ServerPlayers[sID].IsPlaying = false
-
-				log.Println(m.ServerPlayers[sID].Username, "has connected...")
-
-				for _, system := range m.world.Systems() {
-					switch sys := system.(type) {
-					case *comm.RenderSystem:
-						sys.Add(&m.ServerPlayers[sID].BasicEntity, &m.ServerPlayers[sID].RenderComponent, &m.ServerPlayers[sID].SpaceComponent)
-					}
-				}
-			}
-			m.ServerPlayers[sID].Position.Set(sP.GetPosition().X, sP.GetPosition().Y)
-			m.ServerPlayers[sID].Ase.Play(sP.AnimName)
-			m.ServerPlayers[sID].Ase.Update(dt)
-			m.ServerPlayers[sID].Drawable = m.ServerPlayers[sID].Spritesheet.Drawable(int(m.ServerPlayers[sID].Ase.CurrentFrame))
-			if strings.Contains(m.ServerPlayers[sID].Ase.CurrentAnimation.Name, "action") {
-				m.ServerPlayers[sID].Ase.PlaySpeed = m.ServerPlayers[sID].ShootSpeed
-			} else {
-				m.ServerPlayers[sID].Ase.PlaySpeed = 1.0
-			}
-		}
-	}
-
-	for ID := range m.ServerPlayers {
-		var found bool
-		for sID := range sPlayers.Players {
-			if _, ok := m.ServerPlayers[sID]; ok {
-				found = true
-			}
-		}
-		if !found {
-			log.Println(m.ServerPlayers[ID].Username, "has disconnected...")
-
-			for _, system := range m.world.Systems() {
-				switch sys := system.(type) {
-				case *comm.RenderSystem:
-					sys.Remove(m.ServerPlayers[ID].BasicEntity)
-				}
-			}
-
-			delete(m.ServerPlayers, ID)
-		}
-	}
+	m.updateConnectedPlayers(sPlayers, dt)
+	// m.updateDisconnectedPlayers(sPlayers)
 
 	if engo.Input.Button("quit").Down() {
 		m.TerminateConnection()

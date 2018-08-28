@@ -1,6 +1,8 @@
 package utils
 
-import "sync/atomic"
+import (
+	"sync/atomic"
+)
 
 // IDManager is used to manage unique ID's of players and bots
 type IDManager struct {
