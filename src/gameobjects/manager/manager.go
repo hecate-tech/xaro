@@ -46,13 +46,15 @@ func (m *Manager) Update(dt float32) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
+	// Update sent data to server.
 	m.Client.UpdatePosition(m.Player.Position.X, m.Player.Position.Y)
 	m.Client.Player.AnimName = m.Player.Ase.CurrentAnimation.Name
+
+	// Send the information to server and receive other players.
 	sPlayers, err := m.Client.Conn.SendPlayerData(ctx, m.Client.GetPlayer())
 	common.ErrorCheck("error sending player data to server:", err)
 
 	m.updateConnectedPlayers(sPlayers, dt)
-	// m.updateDisconnectedPlayers(sPlayers)
 
 	if engo.Input.Button("quit").Down() {
 		m.TerminateConnection()
@@ -90,9 +92,11 @@ func (m *Manager) TerminateConnection() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
+	// Send server that player has disconnected.
 	_, err := m.Client.Conn.UserLeft(ctx, m.Client.Player)
 	common.ErrorCheck("error leaving server:", err)
 
+	// Delete all server players.
 	if len(m.ServerPlayers) > 0 {
 		for i := range m.ServerPlayers {
 			delete(m.ServerPlayers, i)
