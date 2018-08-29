@@ -22,29 +22,29 @@ func NewIDManager() *IDManager {
 }
 
 // NextPlayerID returns a new unique player ID
-func (manager *IDManager) NextPlayerID() uint32 {
-	return manager.nextID(manager.playerIDs)
+func (m *IDManager) NextPlayerID() uint32 {
+	return m.nextID(m.playerIDs)
 }
 
 // NextBotID returns a new unique bot ID
-func (manager *IDManager) NextBotID() uint32 {
-	return manager.nextID(manager.botsIDs)
+func (m *IDManager) NextBotID() uint32 {
+	return m.nextID(m.botsIDs)
 }
 
 // IsPlayerID returns if id exists already
-func (manager *IDManager) IsPlayerID(id uint32) bool {
-	_, ok := manager.playerIDs[id]
+func (m *IDManager) IsPlayerID(id uint32) bool {
+	_, ok := m.playerIDs[id]
 	return ok
 }
 
 // IsBotID returns if id exists already
-func (manager *IDManager) IsBotID(id uint32) bool {
-	_, ok := manager.botsIDs[id]
+func (m *IDManager) IsBotID(id uint32) bool {
+	_, ok := m.botsIDs[id]
 	return ok
 }
 
-func (manager *IDManager) nextID(idsMap map[uint32]bool) uint32 {
-	id := atomic.AddUint32(&manager.lastID, 1)
+func (m *IDManager) nextID(idsMap map[uint32]bool) uint32 {
+	id := atomic.AddUint32(&m.lastID, 1)
 	idsMap[id] = true
 	return id
 }

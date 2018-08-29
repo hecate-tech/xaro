@@ -35,6 +35,7 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 
 	// Adding config paths...
 	v.SetConfigName("config.development")
+	v.AddConfigPath("../../../config/")
 	v.AddConfigPath("$HOME/.go-xaro")
 	v.AddConfigPath(wd + "/config/")
 	v.AddConfigPath(".")
@@ -52,9 +53,7 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 // ChangeConfig updates the current config file's value
 func ChangeConfig(v *viper.Viper, key string, value interface{}) {
 	v.Set(key, value)
+
 	err := v.WriteConfig()
 	common.ErrorCheck("unable to write to config:", err)
-	// if err := v.WriteConfig(); err != nil {
-	// 	fmt.Printf("couldn't write config: %s", err)
-	// }
 }
