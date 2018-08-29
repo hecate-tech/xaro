@@ -25,10 +25,6 @@ func NewServer() *Server {
 
 // UserJoined returns a printed message and replies to user
 func (s *Server) UserJoined(ctx context.Context, in *pb.Player) (*pb.JoinMessage, error) {
-	if in == nil {
-		return nil, errors.New("in UserJoined 'in' was passed in as nil")
-	}
-
 	newID := s.idManager.NextPlayerID()
 	s.clients[newID] = in
 	s.clients[newID].AnimName = "downidle"
@@ -41,17 +37,15 @@ func (s *Server) UserJoined(ctx context.Context, in *pb.Player) (*pb.JoinMessage
 
 // SendPlayerData you send your current position and are returned with the other player's positions
 func (s *Server) SendPlayerData(ctx context.Context, in *pb.Player) (*pb.Players, error) {
-	if in == nil {
-		return nil, errors.New("in SendPlayerData 'in' was passed in as nil")
-	}
-
 	if _, ok := s.clients[in.ID]; !ok {
 		return nil, errors.New("in SendPlayerData 'map[uint32]*pb.Player clients' did not have player {" + in.Username + "," + string(in.ID) + "} inside")
 	}
 
+	// Send this information to the players.
 	s.clients[in.ID].Position = in.Position
 	s.clients[in.ID].AnimName = in.AnimName
 
+	// Assure you're not sending the player who requested.
 	sPlayers := &pb.Players{Players: make(map[uint32]*pb.Player)}
 	for i, c := range s.clients {
 		if c.ID != in.ID {
@@ -64,10 +58,6 @@ func (s *Server) SendPlayerData(ctx context.Context, in *pb.Player) (*pb.Players
 
 // UserLeft removes player once they leave
 func (s *Server) UserLeft(ctx context.Context, in *pb.Player) (*pb.ServerMessage, error) {
-	if in == nil {
-		return nil, errors.New("in UserLeft 'in' was passed in as nil")
-	}
-
 	if _, ok := s.clients[in.ID]; ok {
 		delete(s.clients, in.ID)
 	}
