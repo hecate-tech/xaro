@@ -15,6 +15,7 @@ func (m *Manager) updateConnectedPlayers(sPlayers *pb.Players, dt float32) {
 			m.newServerPlayer(sID)
 			log.Println(sP.Username, "has connected...")
 		}
+		m.ServerPlayers[sID].Ase.Update(dt)
 		m.updateServerPlayer(sID, sP)
 	}
 

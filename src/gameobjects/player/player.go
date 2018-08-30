@@ -77,11 +77,11 @@ func New(w *ecs.World) *Player {
 
 // Update gets called every frame
 func (p *Player) Update(dt float32) {
-	p.Ase.Update(dt)
-
 	if !p.IsPlaying {
 		return
 	}
+
+	p.Ase.Update(dt)
 
 	p.Velocity.Set(0, 0)
 
