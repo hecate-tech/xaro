@@ -10,6 +10,19 @@ These instructions are meant for if you'd like to build the game on your local m
 
 You'll need to install [engo](https://engo.io/) and [mage](https://github.com/magefile/mage) in order to build this project. Engo wasn't included into the magefile because of dependency issues with glfw3 so you'll have to install it manually.
 
+* engo
+    * `engo.io/engo`
+    * `engo.io/ecs`
+    * `engo.io/engo/common`
+* magefile
+    * `github.com/magefile/mage`
+* dep
+    * MacOS
+        * `brew install dep`
+        * `brew upgrade dep`
+    * Other platforms
+        * `curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh`
+
 ### Installing
 
 Install the repository directly into your gopath using this command.
