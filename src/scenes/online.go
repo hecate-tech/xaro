@@ -9,6 +9,7 @@ import (
 	"github.com/damienfamed75/engo-xaro/src/system"
 )
 
+// Online is a testing scene for online play
 type Online struct{}
 
 // Preload is used for loading in sprites and other assets used
