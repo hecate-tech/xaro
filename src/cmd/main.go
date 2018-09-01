@@ -19,6 +19,6 @@ func main() {
 		Fullscreen:    config.Window.FullScreen,
 	}
 
-	//// Run the Scene /////
+	// Run the Scene
 	engo.Run(opts, &scenes.Nexus{})
 }

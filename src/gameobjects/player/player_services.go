@@ -42,6 +42,8 @@ func (p *Player) inAction() bool {
 func (p *Player) updateAnimation() {
 	p.Ase.PlaySpeed = 1.0
 	for _, dir := range directions {
+		// Plays the walking animation of the current
+		// direction you are currently pressing
 		if engo.Input.Button(dir).Down() {
 			p.Ase.Play(dir)
 			break
@@ -57,7 +59,8 @@ func (p *Player) updateAction(dt float32) {
 	if timeStamp += int64(dt); timeStamp <= time.Now().UnixNano()/int64(time.Millisecond) {
 		nextActionTime := int64((float32(p.Ase.CurrentAnimation.End-(p.Ase.CurrentAnimation.Start-1)) * 100) / p.ShootSpeed)
 		timeStamp = time.Now().UnixNano()/int64(time.Millisecond) + nextActionTime
-		p.action()
+
+		p.action() // Perform player action when timer is up
 	}
 }
 
@@ -66,6 +69,7 @@ func (p *Player) action() {
 }
 
 func (p *Player) updateIdleAnimation() {
+	// if player velocity is x:0, y:0 then play idle animation
 	if p.Velocity.Equal(engo.Point{}) {
 		p.Ase.Play(getCurrentDirection(p.Ase.CurrentAnimation.Name) + "idle")
 	}
@@ -73,6 +77,7 @@ func (p *Player) updateIdleAnimation() {
 
 func getCurrentDirection(animName string) string {
 	for _, dir := range directions {
+		// returns the direction that the current animation is
 		if strings.Contains(animName, dir) {
 			return dir
 		}
