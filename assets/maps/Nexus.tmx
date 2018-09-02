@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" name="Nexus" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="../graphics/NexusTiles.png" width="32" height="32"/>
+ </tileset>
+ <layer name="Base" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztzkEKgCAUANFfef8ztxUJDOOr0FvMel6JiKLUjqR2to0ar6ZsX/t74zursn31a8SX5Xx6fPHNiI+Pj4+Pj4+Pj4+Pj4+Pj+8vvpX1fNLMbo0mEJc=
+  </data>
+ </layer>
+</map>
