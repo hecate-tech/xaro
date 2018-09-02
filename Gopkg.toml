@@ -28,7 +28,7 @@ ignored = ["engo.io/engo", "engo.io/ecs", "engo.io/gl", "engo.io/engo/common"]
 
 [[constraint]]
   branch = "master"
-  name = "github.com/SolarLune/GoAseprite"
+  name = "github.com/damienfamed75/GoAseprite"
 
 [[constraint]]
   name = "github.com/golang/protobuf"
