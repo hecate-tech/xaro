@@ -5,6 +5,7 @@ import (
 
 	"github.com/damienfamed75/engo-xaro/src/gameobjects/manager"
 	"github.com/damienfamed75/engo-xaro/src/gameobjects/player"
+	"github.com/damienfamed75/engo-xaro/src/gameobjects/tilemap"
 	"github.com/damienfamed75/engo-xaro/src/system"
 
 	"engo.io/ecs"
@@ -17,6 +18,7 @@ type Nexus struct{}
 
 var (
 	spawnPosition = engo.Point{X: 0, Y: 0}
+	mapPath       = "/maps/Nexus.tmx"
 
 	setBackground = common.SetBackground
 	playerNew     = player.New
@@ -24,6 +26,7 @@ var (
 
 // Preload loads in essential graphics and assets
 func (*Nexus) Preload() {
+	engo.Files.Load(mapPath)
 	system.Init()
 }
 
@@ -31,16 +34,18 @@ func (*Nexus) Preload() {
 func (*Nexus) Setup(u engo.Updater) {
 	w, _ := u.(*ecs.World)
 
-	//// Making Scene /////
-	setBackground(color.White)
+	//-- Making Scene --//
+	setBackground(color.Black)
 	w.AddSystem(&common.RenderSystem{})
 	w.AddSystem(&common.MouseSystem{})
 
-	//// Player Setup /////
+	tilemap.Load(w, mapPath)
+
+	//-- Player Setup --//
 	m := manager.New(w)
 	m.Player.Position = spawnPosition
 
-	//// System Setup ////
+	//-- System Setup --//
 	for _, system := range w.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
