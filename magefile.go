@@ -12,9 +12,14 @@ import (
 	"github.com/magefile/mage/mg"
 )
 
-// Default target to run when none is specified
-// If not set, running mage will list available targets
-var Default = Install
+var (
+	// Default target to run when none is specified
+	// If not set, running mage will list available targets
+	Default = Install
+	// msgPfx is the prefix for each message when calling
+	// fmt.Println. It's a blue arrow... and that's it.
+	msgPfx = "\x1b[34;1m▶\x1b[0m"
+)
 
 // Build will clean, install dependencies, and compile the project into an executable
 func Build() error {
@@ -24,7 +29,7 @@ func Build() error {
 	mg.Deps(InstallDeps) // Uses dep.exe to install the dependencies for engo-xaro
 	mg.Deps(RunLinter)   // Runs golint to find bad practices in the source code.
 
-	fmt.Println("► Building Executables…")
+	fmt.Println(msgPfx + " Building Executables…")
 
 	// go build -o Xaro.exe ./src/cmd/.
 	cmd := exec.Command("go", "build", "-o", "Xaro.exe", "./src/cmd/.")
@@ -48,7 +53,7 @@ func Build() error {
 // Install will create a bin folder and place the executable in it.
 func Install() error {
 	mg.Deps(Build)
-	fmt.Println("► Installing…")
+	fmt.Println(msgPfx + " Installing…")
 
 	// Creates the bin directory in the root directory.
 	os.MkdirAll("./bin", os.ModePerm)
@@ -66,14 +71,12 @@ func Install() error {
 	}
 	log.Println("moved Server.exe to bin…")
 
-	log.Println("moved executable to bin folder…")
-
 	return nil
 }
 
 // RunFmt runs gofmt to format the src files
 func RunFmt() error {
-	fmt.Println("► Running gofmt…")
+	fmt.Println(msgPfx + " Running gofmt…")
 	// gofmt -l -w .
 	cmd := exec.Command("gofmt", "-l", "-w", ".")
 
@@ -88,7 +91,7 @@ func BuildDep() error {
 		return err
 	}
 
-	fmt.Println("► Building github.com/golang/dep/...…")
+	fmt.Println(msgPfx + " Building github.com/golang/dep/...…")
 
 	// go get -u github.com/golang/dep/cmd/dep
 	cmd := exec.Command("go", "get", "-u", "github.com/golang/dep/cmd/dep")
@@ -98,7 +101,7 @@ func BuildDep() error {
 
 // InstallDeps runs dep package manager.
 func InstallDeps() error {
-	fmt.Println("► Installing Dependencies…")
+	fmt.Println(msgPfx + " Installing Dependencies…")
 
 	// ensures that you have vendored files in order
 	// for the project to run successfully.
@@ -109,7 +112,7 @@ func InstallDeps() error {
 
 // RunLinter runs golint to catch bad habits...
 func RunLinter() error {
-	fmt.Println("► Running golint…")
+	fmt.Println(msgPfx + " Running golint…")
 
 	// golint -set_exit_status ./src/...
 	cmd := exec.Command("golint", "-set_exit_status", "./src/...")
@@ -124,7 +127,7 @@ func RunLinter() error {
 
 // Clean up after yourself
 func Clean() {
-	fmt.Println("► Cleaning…")
+	fmt.Println(msgPfx + " Cleaning…")
 
 	os.Remove("bin/Xaro.exe")
 	log.Println("removed bin/Xaro.exe…")
