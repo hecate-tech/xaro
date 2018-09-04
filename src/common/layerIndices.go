@@ -8,7 +8,11 @@ const (
 	// around the world objects like
 	// chests or bags of loot.
 	OBJECTS = 0
+	// SERVERPLAYER needs to be
+	// displayed over the objects, but
+	// still underneath the player.
+	SERVERPLAYER = 1
 	// PLAYER needs to be drawn
 	// above everything in the game
-	PLAYER = 1
+	PLAYER = 2
 )

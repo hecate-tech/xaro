@@ -23,11 +23,12 @@ var (
 
 // Build will clean, install dependencies, and compile the project into an executable
 func Build() error {
-	mg.Deps(Clean)       // Clean old executables and vendor folder/s
+	mg.Deps(Clean)       // Clean old executables and vendor folder/s.
 	mg.Deps(RunFmt)      // Runs gofmt to make sure everything is formatted correctly.
-	mg.Deps(BuildDep)    // Updates and builds dep.exe in your gobin folder
-	mg.Deps(InstallDeps) // Uses dep.exe to install the dependencies for engo-xaro
+	mg.Deps(BuildDep)    // Updates and builds dep.exe in your gobin folder.
+	mg.Deps(InstallDeps) // Uses dep.exe to install the dependencies for engo-xaro.
 	mg.Deps(RunLinter)   // Runs golint to find bad practices in the source code.
+	mg.Deps(RunVet)      // Runs go vet to find suspicious constructs.
 
 	fmt.Println(msgPfx + " Building Executables…")
 
@@ -119,6 +120,20 @@ func RunLinter() error {
 	b, err := cmd.Output() // Stores the cmd output to b ([]byte)
 	if err != nil {        // if the command exited with status code 1
 		fmt.Print(string(b)) // Prints out the error/output as string
+		return err
+	}
+
+	return nil
+}
+
+func RunVet() error {
+	fmt.Println(msgPfx + " Running vet…")
+
+	// go vet ./...
+	cmd := exec.Command("go", "vet", "./...")
+	b, err := cmd.Output() // Stores the cmd output to b (b []byte)
+	if err != nil {
+		fmt.Print(string(b))
 		return err
 	}
 

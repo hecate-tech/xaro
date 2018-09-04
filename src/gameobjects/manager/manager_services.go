@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	comm "engo.io/engo/common"
+	"github.com/damienfamed75/engo-xaro/src/common"
 	"github.com/damienfamed75/engo-xaro/src/gameobjects/player"
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
 )
@@ -44,8 +45,9 @@ func (m *Manager) updateServerPlayer(index uint32, sp *pb.Player) {
 }
 
 func (m *Manager) newServerPlayer(index uint32) {
-	m.ServerPlayers[index] = player.New(m.world) // Instantiates new Player in map
-	m.ServerPlayers[index].IsPlaying = false     // So Update function doesn't run
+	m.ServerPlayers[index] = player.New(m.world)          // Instantiates new Player in map
+	m.ServerPlayers[index].IsPlaying = false              // So Update function doesn't run
+	m.ServerPlayers[index].SetZIndex(common.SERVERPLAYER) // ServerPlayer draws under Player
 
 	for _, system := range m.world.Systems() {
 		switch sys := system.(type) {

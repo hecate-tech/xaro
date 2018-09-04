@@ -63,6 +63,8 @@ func New(w *ecs.World) *Player {
 		Drawable: p.Spritesheet.Drawable(0),
 		Scale:    engo.Point{X: p.Scale, Y: p.Scale},
 	}
+	p.SetZIndex(comm.PLAYER)
+
 	p.SpaceComponent = common.SpaceComponent{
 		Position: engo.Point{X: 0, Y: 0},
 		Width:    p.Spritesheet.Width() * p.RenderComponent.Scale.X,
