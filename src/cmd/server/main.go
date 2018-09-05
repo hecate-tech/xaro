@@ -20,7 +20,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	fmt.Println("Server Created! Listening for clients...")
+	fmt.Println("► Server Created! Listening for clients...")
 	s := grpc.NewServer()
 	pb.RegisterXaroServer(s, communication.NewServer())
 	reflection.Register(s)

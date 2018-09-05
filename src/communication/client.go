@@ -3,6 +3,7 @@ package communication
 import (
 	"io/ioutil"
 	"net/http"
+	"strings"
 
 	"github.com/damienfamed75/engo-xaro/src/common"
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
@@ -55,6 +56,10 @@ func getPublicIP() string {
 
 	htmlData, err := ioutil.ReadAll(resp.Body)
 	common.ErrorCheck("failed to read html page:", err)
+
+	stringData := string(htmlData)
+
+	stringData = strings.TrimSuffix(stringData, "\n")
 
 	return string(htmlData)
 }

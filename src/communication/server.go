@@ -32,7 +32,7 @@ func (s *Server) UserJoined(ctx context.Context, in *pb.Player) (*pb.JoinMessage
 	log.Printf("%v (%v) has joined the game with IP: %v", in.Username, newID, in.IP)
 	log.Printf("%v players connected.\n", len(s.clients))
 
-	return &pb.JoinMessage{Message: "You have connected to server...", Newid: newID}, nil
+	return &pb.JoinMessage{Message: "You have connected to server", Newid: newID}, nil
 }
 
 // SendPlayerData you send your current position and are returned with the other player's positions
@@ -63,7 +63,7 @@ func (s *Server) UserLeft(ctx context.Context, in *pb.Player) (*pb.ServerMessage
 	}
 
 	log.Printf("%v (%v) has left the game with IP: %v\n", in.Username, in.ID, in.IP)
-	return &pb.ServerMessage{Message: "You have disconnected from server..."}, nil
+	return &pb.ServerMessage{Message: "You have disconnected from server"}, nil
 }
 
 // UsersConnected gets the user count of the server

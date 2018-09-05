@@ -20,6 +20,8 @@ type Tile struct {
 // a new tilemap from it using engo's inbuilt Tiled
 // support and then set it beneath the player.
 func Load(w *ecs.World, path string) {
+	c.StatusPrint("Loading Tilemap")
+
 	r, err := engo.Files.Resource(path)
 	c.ErrorCheck("Couldn't load resource:", err)
 

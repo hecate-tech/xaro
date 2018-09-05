@@ -2,8 +2,6 @@ package manager
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"time"
 
 	"engo.io/ecs"
@@ -29,6 +27,8 @@ type Manager struct {
 
 // New returns a new manager
 func New(w *ecs.World) *Manager {
+	common.StatusPrint("Loading Player")
+
 	m := &Manager{
 		Player:        player.New(w),
 		ServerPlayers: make(map[uint32]*player.Player),
@@ -63,6 +63,7 @@ func (m *Manager) Update(dt float32) {
 
 // EstablishConnection connects to selected server
 func (m *Manager) EstablishConnection() {
+	common.StatusPrint("Establishing connection")
 	_, config := system.LoadViperConfig()
 
 	conn, err := grpc.Dial(config.Connection.GetAddress(), grpc.WithInsecure())
@@ -82,13 +83,13 @@ func (m *Manager) EstablishConnection() {
 	common.ErrorCheck("error joining server:", err)
 
 	m.Client.Player.ID = r.Newid // Set new ID to current client.
-	fmt.Println("NEW ID:", r.Newid)
 
-	log.Println(r.Message)
+	common.SuccessPrint(r.Message)
 }
 
 // TerminateConnection disconnects player from server
 func (m *Manager) TerminateConnection() {
+	common.StatusPrint("Terminating connection")
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 

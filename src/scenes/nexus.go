@@ -3,6 +3,7 @@ package scenes
 import (
 	"image/color"
 
+	c "github.com/damienfamed75/engo-xaro/src/common"
 	"github.com/damienfamed75/engo-xaro/src/gameobjects/manager"
 	"github.com/damienfamed75/engo-xaro/src/gameobjects/player"
 	"github.com/damienfamed75/engo-xaro/src/gameobjects/tilemap"
@@ -33,6 +34,7 @@ func (*Nexus) Preload() {
 // Setup creates and instantiates everything in the world
 func (*Nexus) Setup(u engo.Updater) {
 	w, _ := u.(*ecs.World)
+	c.StatusPrint("Loading Nexus")
 
 	//-- Making Scene --//
 	setBackground(color.Black)
@@ -46,6 +48,7 @@ func (*Nexus) Setup(u engo.Updater) {
 	m.Player.Position = spawnPosition
 
 	//-- System Setup --//
+	c.StatusPrint("Adding Systems")
 	for _, system := range w.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
@@ -55,9 +58,10 @@ func (*Nexus) Setup(u engo.Updater) {
 		}
 	}
 
+	c.SuccessPrint("Nexus successfully loaded")
 }
 
 // Type returns the type of the world
 func (*Nexus) Type() string {
-	return "GameWorld"
+	return "Nexus"
 }

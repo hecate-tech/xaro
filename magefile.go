@@ -17,9 +17,6 @@ var (
 	// Default target to run when none is specified
 	// If not set, running mage will list available targets
 	Default = Install
-	// msgPfx is the prefix for each message when calling
-	// fmt.Println. It's a blue arrow... and that's it.
-	msgPfx = "\x1b[34;1m▶\x1b[0m"
 )
 
 // Build will clean, install dependencies, and compile the project into an executable
@@ -29,10 +26,10 @@ func Build() error {
 	mg.Deps(InstallDeps)               // Fetches required dependencies and stores them in vendor folder/s.
 	mg.Deps(RunFmt, RunLinter, RunVet) // Run all code checks for bad practices and suspicious constructs.
 
-	fmt.Println(msgPfx + " Building Executables…")
+	fmt.Println("► Building Executables…")
 
 	// go build -o Xaro.exe ./src/cmd/.
-	cmd := exec.Command("go", "build", "-o", "Xaro.exe", "./src/cmd/.")
+	cmd := exec.Command("go", "build", "-o", "Xaro.exe", "./src/cmd/client/.")
 	if err := cmd.Run(); err != nil {
 		return err
 	}
@@ -40,7 +37,7 @@ func Build() error {
 	log.Println("built Xaro.exe…")
 
 	// go build -o Server.exe ./src/communication/server/.
-	cmd = exec.Command("go", "build", "-o", "Server.exe", "./src/communication/server/.")
+	cmd = exec.Command("go", "build", "-o", "Server.exe", "./src/cmd/server/.")
 	if err := cmd.Run(); err != nil {
 		return err
 	}
@@ -53,7 +50,7 @@ func Build() error {
 // Install will create a bin folder and place the executable in it.
 func Install() error {
 	mg.Deps(Build)
-	fmt.Println(msgPfx + " Installing…")
+	fmt.Println("► Installing…")
 
 	// Creates the bin directory in the root directory.
 	os.MkdirAll("./bin", os.ModePerm)
@@ -78,7 +75,7 @@ func Install() error {
 
 // BuildDep and install dep into the bin folder.
 func BuildDep() error {
-	fmt.Println(msgPfx + " Building github.com/golang/dep/...…")
+	fmt.Println("► Building github.com/golang/dep/...…")
 
 	// go get -u github.com/golang/dep/cmd/dep
 	cmd := exec.Command("go", "get", "-u", "github.com/golang/dep/cmd/dep")
@@ -93,7 +90,7 @@ func BuildDep() error {
 
 // InstallDeps runs dep package manager.
 func InstallDeps() error {
-	fmt.Println(msgPfx + " Installing Dependencies…")
+	fmt.Println("► Installing Dependencies…")
 
 	// ensures that you have vendored files in order
 	// for the project to run successfully.
@@ -109,7 +106,7 @@ func InstallDeps() error {
 
 // CheckEnv assures that the environment variables are set
 func CheckEnv() error {
-	log.Println(msgPfx + " Checking Environment Variables…")
+	log.Println("► Checking Environment Variables…")
 
 	envVars := map[string]string{
 		"gopath": build.Default.GOPATH,
@@ -131,7 +128,7 @@ func CheckEnv() error {
 
 // RunFmt runs gofmt to format the src files
 func RunFmt() error {
-	fmt.Println(msgPfx + " Running gofmt…")
+	fmt.Println("► Running gofmt…")
 
 	// gofmt -l -w .
 	cmd := exec.Command("gofmt", "-l", "-w", ".")
@@ -146,7 +143,7 @@ func RunFmt() error {
 
 // RunLinter runs golint to catch bad habits...
 func RunLinter() error {
-	fmt.Println(msgPfx + " Running golint…")
+	fmt.Println("► Running golint…")
 
 	// golint -set_exit_status ./src/...
 	cmd := exec.Command("golint", "-set_exit_status", "./src/...")
@@ -161,7 +158,7 @@ func RunLinter() error {
 
 // RunVet checks for suspicious constructs.
 func RunVet() error {
-	fmt.Println(msgPfx + " Running govet…")
+	fmt.Println("► Running govet…")
 
 	// go vet ./...
 	cmd := exec.Command("go", "vet", "./src/...")
@@ -177,7 +174,7 @@ func RunVet() error {
 
 // Clean up after yourself
 func Clean() {
-	fmt.Println(msgPfx + " Cleaning…")
+	fmt.Println("► Cleaning…")
 
 	os.Remove("bin/Xaro.exe")
 	log.Println("   removed bin/Xaro.exe…")
