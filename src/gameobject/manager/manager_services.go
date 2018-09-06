@@ -4,9 +4,9 @@ import (
 	"log"
 	"strings"
 
-	comm "engo.io/engo/common"
-	"github.com/damienfamed75/engo-xaro/src/common"
-	"github.com/damienfamed75/engo-xaro/src/gameobjects/player"
+	"engo.io/engo/common"
+	"github.com/damienfamed75/engo-xaro/src/gameobject/constant"
+	"github.com/damienfamed75/engo-xaro/src/gameobject/player"
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
 )
 
@@ -45,13 +45,13 @@ func (m *Manager) updateServerPlayer(index uint32, sp *pb.Player) {
 }
 
 func (m *Manager) newServerPlayer(index uint32) {
-	m.ServerPlayers[index] = player.New(m.world)          // Instantiates new Player in map
-	m.ServerPlayers[index].IsPlaying = false              // So Update function doesn't run
-	m.ServerPlayers[index].SetZIndex(common.SERVERPLAYER) // ServerPlayer draws under Player
+	m.ServerPlayers[index] = player.New(m.world)            // Instantiates new Player in map
+	m.ServerPlayers[index].IsPlaying = false                // So Update function doesn't run
+	m.ServerPlayers[index].SetZIndex(constant.SERVERPLAYER) // ServerPlayer draws under Player
 
 	for _, system := range m.world.Systems() {
 		switch sys := system.(type) {
-		case *comm.RenderSystem:
+		case *common.RenderSystem:
 			// Adds server player to world systems
 			sys.Add(&m.ServerPlayers[index].BasicEntity, &m.ServerPlayers[index].RenderComponent, &m.ServerPlayers[index].SpaceComponent)
 		}
@@ -61,7 +61,7 @@ func (m *Manager) newServerPlayer(index uint32) {
 func (m *Manager) removeServerPlayer(index uint32) {
 	for _, system := range m.world.Systems() {
 		switch sys := system.(type) {
-		case *comm.RenderSystem:
+		case *common.RenderSystem:
 			// Removes server player from world systems
 			sys.Remove(m.ServerPlayers[index].BasicEntity)
 		}

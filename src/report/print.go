@@ -1,4 +1,4 @@
-package common
+package report
 
 import (
 	"fmt"
@@ -7,10 +7,8 @@ import (
 	"github.com/fatih/color"
 )
 
-// var delimiter = "►"
-
 const (
-	delimiter = "►"
+	prefix = "►"
 )
 
 var (
@@ -21,10 +19,10 @@ var (
 
 type colStringer func(string, ...interface{}) string
 
-// StatusPrint will print a colored
+// Status will print a colored
 // delimiter followed by a message.
-func StatusPrint(a ...interface{}) {
-	printDelimiter(statusCol)
+func Status(a ...interface{}) {
+	printPrefix(statusCol)
 	fmt.Print(a...)
 	fmt.Println("…")
 }
@@ -32,21 +30,21 @@ func StatusPrint(a ...interface{}) {
 // errorPrint is used for ErrorCheck
 // when printing the final error
 func errorPrint(a ...interface{}) {
-	printDelimiter(failureCol)
+	printPrefix(failureCol)
 	color.New(color.FgHiRed).Fprintln(color.Error, a...)
 	os.Exit(1)
 }
 
-// SuccessPrint is for when you want
+// Success is for when you want
 // to display a task was completed
 // successfully.
-func SuccessPrint(a ...interface{}) {
-	printDelimiter(successCol)
+func Success(a ...interface{}) {
+	printPrefix(successCol)
 	c := color.New(color.FgHiGreen)
 	c.Fprint(color.Output, a...)
 	c.Fprint(color.Output, "…\n")
 }
 
-func printDelimiter(col colStringer) {
-	fmt.Fprintf(color.Output, col(delimiter+" "))
+func printPrefix(col colStringer) {
+	fmt.Fprintf(color.Output, col(prefix+" "))
 }

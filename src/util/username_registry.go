@@ -1,4 +1,4 @@
-package utils
+package util
 
 // UserNameRegistry holds all used usernames
 type UserNameRegistry struct {

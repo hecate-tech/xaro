@@ -7,7 +7,8 @@ import (
 	"engo.io/engo"
 	"engo.io/engo/common"
 	goasperite "github.com/damienfamed75/GoAseprite"
-	comm "github.com/damienfamed75/engo-xaro/src/common"
+	"github.com/damienfamed75/engo-xaro/src/gameobject/constant"
+	"github.com/damienfamed75/engo-xaro/src/report"
 	"github.com/damienfamed75/engo-xaro/src/system"
 )
 
@@ -52,9 +53,9 @@ func New(w *ecs.World) *Player {
 	}
 
 	jsonPath, err := filepath.Abs("assets/graphics/player.json")
-	comm.ErrorCheck("filepath.Abs failed to output dir:", err)
+	report.Error("filepath.Abs failed to output dir:", err)
 	err = engo.Files.Load(imagePath)
-	comm.ErrorCheck("failed to load image in engo:", err)
+	report.Error("failed to load image in engo:", err)
 
 	// Setting Up Player Variables...
 	p.Ase = goasperite.New(jsonPath)
@@ -63,7 +64,7 @@ func New(w *ecs.World) *Player {
 		Drawable: p.Spritesheet.Drawable(0),
 		Scale:    engo.Point{X: p.Scale, Y: p.Scale},
 	}
-	p.SetZIndex(comm.PLAYER)
+	p.SetZIndex(constant.PLAYER)
 
 	p.SpaceComponent = common.SpaceComponent{
 		Position: engo.Point{X: 0, Y: 0},

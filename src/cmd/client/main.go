@@ -2,7 +2,7 @@ package main
 
 import (
 	"engo.io/engo"
-	"github.com/damienfamed75/engo-xaro/src/scenes"
+	"github.com/damienfamed75/engo-xaro/src/scene"
 	"github.com/damienfamed75/engo-xaro/src/system"
 )
 
@@ -20,5 +20,5 @@ func main() {
 	}
 
 	// Run the Scene
-	engo.Run(opts, &scenes.Nexus{})
+	engo.Run(opts, &scene.Nexus{})
 }

@@ -1,8 +1,8 @@
-package common
+package report
 
 var (
-	// ErrorCheck is a wrapper for error checking
-	ErrorCheck = func(v ...interface{}) {
+	// Error is a wrapper for error checking
+	Error = func(v ...interface{}) {
 		for _, e := range v {
 			switch e.(type) {
 			case error:

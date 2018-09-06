@@ -4,7 +4,8 @@ import (
 	"engo.io/ecs"
 	"engo.io/engo"
 	"engo.io/engo/common"
-	c "github.com/damienfamed75/engo-xaro/src/common"
+	"github.com/damienfamed75/engo-xaro/src/gameobject/constant"
+	"github.com/damienfamed75/engo-xaro/src/report"
 )
 
 // Tile will contain data required
@@ -20,10 +21,10 @@ type Tile struct {
 // a new tilemap from it using engo's inbuilt Tiled
 // support and then set it beneath the player.
 func Load(w *ecs.World, path string) {
-	c.StatusPrint("Loading Tilemap")
+	report.Status("Loading Tilemap")
 
 	r, err := engo.Files.Resource(path)
-	c.ErrorCheck("Couldn't load resource:", err)
+	report.Error("Couldn't load resource:", err)
 
 	tmxResource := r.(common.TMXResource)
 	levelData := tmxResource.Level
@@ -37,7 +38,7 @@ func Load(w *ecs.World, path string) {
 					Drawable: tileElement,
 					Scale:    engo.Point{X: 4, Y: 4},
 				}
-				tile.SetZIndex(c.BACKGROUND) // Drawn in background
+				tile.SetZIndex(constant.BACKGROUND) // Drawn in background
 
 				pos := tileElement.Point
 				pos.MultiplyScalar(tile.Scale.X)

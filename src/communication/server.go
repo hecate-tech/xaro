@@ -6,20 +6,20 @@ import (
 	"log"
 
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
-	"github.com/damienfamed75/engo-xaro/src/utils"
+	"github.com/damienfamed75/engo-xaro/src/util"
 )
 
 // Server is used to implement engoxaro.GreeterServer
 type Server struct {
 	clients   map[uint32]*pb.Player
-	idManager *utils.IDManager
+	idManager *util.IDManager
 }
 
 // NewServer returns a new pointer to valid server
 func NewServer() *Server {
 	return &Server{
 		clients:   make(map[uint32]*pb.Player),
-		idManager: utils.NewIDManager(),
+		idManager: util.NewIDManager(),
 	}
 }
 

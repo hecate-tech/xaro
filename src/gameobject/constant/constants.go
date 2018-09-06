@@ -1,4 +1,4 @@
-package common
+package constant
 
 const (
 	// BACKGROUND needs to be drawn

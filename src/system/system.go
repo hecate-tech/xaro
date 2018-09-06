@@ -4,8 +4,8 @@ import (
 	"os"
 
 	"engo.io/engo"
-	com "engo.io/engo/common"
-	"github.com/damienfamed75/engo-xaro/src/common"
+	"engo.io/engo/common"
+	"github.com/damienfamed75/engo-xaro/src/report"
 	"github.com/spf13/viper"
 )
 
@@ -14,7 +14,7 @@ func Init() {
 	_, config := LoadViperConfig()
 
 	// Setting Volume Settings...
-	com.SetMasterVolume(config.Settings.SoundVolume)
+	common.SetMasterVolume(config.Settings.SoundVolume)
 
 	// Registering Buttons...
 	engo.Input.RegisterButton("left", engo.Key(config.Controls.Left))
@@ -31,7 +31,7 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 	var c Configuration
 
 	wd, err := os.Getwd()
-	common.ErrorCheck("cannot find working directory:", err)
+	report.Error("cannot find working directory:", err)
 
 	// Adding config paths...
 	v.SetConfigName("config.development")
@@ -42,10 +42,10 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 	v.AddConfigPath(wd)
 
 	err = v.ReadInConfig()
-	common.ErrorCheck("unable to read in config file from selected paths:", err)
+	report.Error("unable to read in config file from selected paths:", err)
 
 	err = v.Unmarshal(&c)
-	common.ErrorCheck("unable to unmarshal config file:", err)
+	report.Error("unable to unmarshal config file:", err)
 
 	return v, c
 }
@@ -55,5 +55,5 @@ func ChangeConfig(v *viper.Viper, key string, value interface{}) {
 	v.Set(key, value)
 
 	err := v.WriteConfig()
-	common.ErrorCheck("unable to write to config:", err)
+	report.Error("unable to write to config:", err)
 }

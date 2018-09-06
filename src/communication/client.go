@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/damienfamed75/engo-xaro/src/common"
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
+	"github.com/damienfamed75/engo-xaro/src/report"
 )
 
 // Client is used to store all client data to run the game
@@ -50,12 +50,12 @@ func (c *Client) GetPlayer() *pb.Player {
 
 func getPublicIP() string {
 	resp, err := http.Get("http://ipv4.myexternalip.com/raw")
-	common.ErrorCheck("failed to fetch ip:", err)
+	report.Error("failed to fetch ip:", err)
 
 	defer resp.Body.Close()
 
 	htmlData, err := ioutil.ReadAll(resp.Body)
-	common.ErrorCheck("failed to read html page:", err)
+	report.Error("failed to read html page:", err)
 
 	stringData := string(htmlData)
 

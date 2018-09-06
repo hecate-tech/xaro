@@ -6,10 +6,10 @@ import (
 
 	"engo.io/ecs"
 	"engo.io/engo"
-	"github.com/damienfamed75/engo-xaro/src/common"
 	"github.com/damienfamed75/engo-xaro/src/communication"
-	"github.com/damienfamed75/engo-xaro/src/gameobjects/player"
+	"github.com/damienfamed75/engo-xaro/src/gameobject/player"
 	pb "github.com/damienfamed75/engo-xaro/src/proto"
+	"github.com/damienfamed75/engo-xaro/src/report"
 	"github.com/damienfamed75/engo-xaro/src/system"
 	"google.golang.org/grpc"
 )
@@ -27,7 +27,7 @@ type Manager struct {
 
 // New returns a new manager
 func New(w *ecs.World) *Manager {
-	common.StatusPrint("Loading Player")
+	report.Status("Loading Player")
 
 	m := &Manager{
 		Player:        player.New(w),
@@ -52,7 +52,7 @@ func (m *Manager) Update(dt float32) {
 
 	// Send the information to server and receive other players.
 	sPlayers, err := m.Client.Conn.SendPlayerData(ctx, m.Client.GetPlayer())
-	common.ErrorCheck("error sending player data to server:", err)
+	report.Error("error sending player data to server:", err)
 
 	m.updateConnectedPlayers(sPlayers, dt)
 
@@ -63,11 +63,11 @@ func (m *Manager) Update(dt float32) {
 
 // EstablishConnection connects to selected server
 func (m *Manager) EstablishConnection() {
-	common.StatusPrint("Establishing connection")
+	report.Status("Establishing connection")
 	_, config := system.LoadViperConfig()
 
 	conn, err := grpc.Dial(config.Connection.GetAddress(), grpc.WithInsecure())
-	common.ErrorCheck("error dialing with grpc:", err)
+	report.Error("error dialing with grpc:", err)
 
 	// Creating new client for server
 	c := pb.NewXaroClient(conn)
@@ -80,22 +80,22 @@ func (m *Manager) EstablishConnection() {
 
 	// Send the server a message that I've joined and reeive a new ID
 	r, err := c.UserJoined(ctx, m.Client.Player)
-	common.ErrorCheck("error joining server:", err)
+	report.Error("error joining server:", err)
 
 	m.Client.Player.ID = r.Newid // Set new ID to current client.
 
-	common.SuccessPrint(r.Message)
+	report.Success(r.Message)
 }
 
 // TerminateConnection disconnects player from server
 func (m *Manager) TerminateConnection() {
-	common.StatusPrint("Terminating connection")
+	report.Status("Terminating connection")
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
 	// Send server that player has disconnected.
 	_, err := m.Client.Conn.UserLeft(ctx, m.Client.Player)
-	common.ErrorCheck("error leaving server:", err)
+	report.Error("error leaving server:", err)
 
 	// Delete all server players.
 	if len(m.ServerPlayers) > 0 {
