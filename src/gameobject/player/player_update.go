@@ -30,13 +30,13 @@ func (p *Player) updateMovement() {
 }
 
 func (p *Player) inAction() bool {
-	if !p.shooting {
-		p.shooting = (engo.Input.Mouse.Action == engo.Press && engo.Input.Mouse.Button == engo.MouseButtonLeft)
+	if !p.IsShooting {
+		p.IsShooting = (engo.Input.Mouse.Action == engo.Press && engo.Input.Mouse.Button == engo.MouseButtonLeft)
 	} else {
-		p.shooting = !(engo.Input.Mouse.Action == engo.Release && engo.Input.Mouse.Button == engo.MouseButtonLeft)
+		p.IsShooting = !(engo.Input.Mouse.Action == engo.Release && engo.Input.Mouse.Button == engo.MouseButtonLeft)
 	}
 
-	return p.shooting
+	return p.IsShooting
 }
 
 func (p *Player) updateAnimation() {

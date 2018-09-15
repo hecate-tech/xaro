@@ -20,3 +20,18 @@ const (
 	// above everything in the game
 	PLAYER
 )
+
+const (
+	// PATHARCHER is the file path to
+	// the archer spritesheet used in the game.
+	PATHARCHER = "/graphics/player.png"
+	// DEFSHOOTSPEED is the default action
+	// speed at which a new player can shoot at.
+	DEFSHOOTSPEED float32 = 0.5
+	// DEFMOVESPEED is the default movement speed
+	// for a player.
+	DEFMOVESPEED float32 = 120.0
+	// DEFENTITYSCALE is the default scale
+	// that the player is rendered.
+	DEFENTITYSCALE float32 = 4.0
+)
