@@ -9,42 +9,61 @@ import (
 
 const (
 	prefix = "►"
+	suffix = "…"
+	sep    = "="
+
+	statusCol  = color.FgCyan
+	successCol = color.FgHiGreen
+	failureCol = color.FgHiRed
+
+	seperatorLen = 48
 )
 
-var (
-	statusCol  = color.CyanString
-	successCol = color.HiGreenString
-	failureCol = color.HiRedString
-)
-
-type colStringer func(string, ...interface{}) string
-
-// Status will print a colored
-// delimiter followed by a message.
-func Status(a ...interface{}) {
-	printPrefix(statusCol)
-	fmt.Print(a...)
-	fmt.Println("…")
-}
-
-// errorPrint is used for ErrorCheck
-// when printing the final error
-func errorPrint(a ...interface{}) {
-	printPrefix(failureCol)
-	color.New(color.FgHiRed).Fprintln(color.Error, a...)
+func errorPrint(v ...interface{}) {
+	printMsg(failureCol, true, v...)
 	os.Exit(1)
 }
 
-// Success is for when you want
-// to display a task was completed
-// successfully.
-func Success(a ...interface{}) {
-	printPrefix(successCol)
-	c := color.New(color.FgHiGreen)
-	c.Fprint(color.Output, a...)
-	c.Fprint(color.Output, "…\n")
+func successPrint(v ...interface{}) {
+	printMsg(successCol, true, v...)
 }
 
-func printPrefix(col colStringer) {
-	fmt.Fprintf(color.Output, col(prefix+" "))
+func statusPrint(v ...interface{}) {
+	printMsg(statusCol, false, v...)
+}
+
+func seperatorPrintTitle(title string) {
+	sepCount := (seperatorLen - 2) - len(title) // 2 for the brackets
+
+	printSegment(sepCount / 2)
+
+	fmt.Printf("[%s]", title)
+
+	printSegment(sepCount / 2)
+
+	fmt.Println()
+}
+
+func seperatorPrint() {
+	printSegment(seperatorLen)
+	fmt.Println()
+}
+
+func printSegment(amount int) {
+	for i := 0; i < amount; i++ {
+		fmt.Print(sep)
+	}
+}
+
+func printMsg(col color.Attribute, wholemsg bool, msgs ...interface{}) {
+	msgCol := color.New(col)
+	msgCol.Fprint(color.Output, prefix+" ")
+	if wholemsg {
+		msgCol.Fprint(color.Output, msgs...)
+		msgCol.Fprintln(color.Output, suffix)
+		return
+	}
+
+	fmt.Print(msgs...)
+	fmt.Println(suffix)
 }

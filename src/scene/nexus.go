@@ -34,7 +34,7 @@ func (*Nexus) Preload() {
 // Setup creates and instantiates everything in the world
 func (*Nexus) Setup(u engo.Updater) {
 	w, _ := u.(*ecs.World)
-	report.Status("Loading Nexus")
+	report.Seperator("Loading Nexus")
 
 	//-- Making Scene --//
 	setBackground(color.Black)
