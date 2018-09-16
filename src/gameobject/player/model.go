@@ -3,7 +3,7 @@ package player
 import (
 	"engo.io/ecs"
 	"engo.io/engo/common"
-	"github.com/damienfamed75/engo-xaro/src/gameobject/constant"
+	"github.com/hecategames/xaro/src/gameobject/constant"
 )
 
 // Player is the main game object that represents

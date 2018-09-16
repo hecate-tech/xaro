@@ -2,8 +2,8 @@ package main
 
 import (
 	"engo.io/engo"
-	"github.com/damienfamed75/engo-xaro/src/scene"
-	"github.com/damienfamed75/engo-xaro/src/system"
+	"github.com/hecategames/xaro/src/scene"
+	"github.com/hecategames/xaro/src/system"
 )
 
 func main() {
@@ -20,5 +20,5 @@ func main() {
 	}
 
 	// Run the Scene
-	engo.Run(opts, &scene.Nexus{})
+	engo.Run(opts, &scene.Game{})
 }

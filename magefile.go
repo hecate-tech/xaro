@@ -36,14 +36,6 @@ func Build() error {
 
 	log.Println("built Xaro.exe…")
 
-	// go build -o Server.exe ./src/communication/server/.
-	cmd = exec.Command("go", "build", "-o", "Server.exe", "./src/cmd/server/.")
-	if err := cmd.Run(); err != nil {
-		return err
-	}
-
-	log.Println("built Server.exe…")
-
 	return nil
 }
 
@@ -60,16 +52,8 @@ func Install() error {
 	if err := os.Rename("./Xaro.exe", "bin/Xaro.exe"); err != nil {
 		return err
 	}
-	log.Println("   moved Xaro.exe to bin…")
-
-	// Moves Server.exe into the new bin folder
-	if err := os.Rename("./Server.exe", "bin/Server.exe"); err != nil {
-		return err
-	}
-	log.Println("   moved Server.exe to bin…")
-
-	log.Println("============================")
 	log.Println("Xaro successfully installed!")
+
 	return nil
 }
 

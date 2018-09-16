@@ -5,7 +5,7 @@ import (
 
 	"engo.io/engo"
 	"engo.io/engo/common"
-	"github.com/damienfamed75/engo-xaro/src/report"
+	"github.com/hecategames/xaro/src/report"
 	"github.com/spf13/viper"
 )
 

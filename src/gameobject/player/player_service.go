@@ -7,9 +7,9 @@ import (
 	"engo.io/engo"
 	"engo.io/engo/common"
 	goasperite "github.com/damienfamed75/GoAseprite"
-	"github.com/damienfamed75/engo-xaro/src/gameobject/constant"
-	"github.com/damienfamed75/engo-xaro/src/report"
-	"github.com/damienfamed75/engo-xaro/src/system"
+	"github.com/hecategames/xaro/src/gameobject/constant"
+	"github.com/hecategames/xaro/src/report"
+	"github.com/hecategames/xaro/src/system"
 )
 
 // New is used to create a new player
