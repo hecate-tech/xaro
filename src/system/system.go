@@ -9,7 +9,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Init initializes controls and other configurations when starting the window
+// Init initializes controls for the game
+// based on the configuration file.
 func Init() {
 	_, config := LoadViperConfig()
 
@@ -25,7 +26,8 @@ func Init() {
 	engo.Input.RegisterButton("quit", engo.KeyEscape)
 }
 
-// LoadViperConfig loads up the configuration TOML file and returns a viper object
+// LoadViperConfig loads a configuration file and returns a new
+// copy of the data via a Configuration struct and viper object.
 func LoadViperConfig() (*viper.Viper, Configuration) {
 	v := viper.New()
 	var c Configuration
@@ -50,10 +52,11 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 	return v, c
 }
 
-// ChangeConfig updates the current config file's value
+// ChangeConfig takes your viper to the configuration file along with a key
+// you want to change and its new value then will be saved to your config file.
 func ChangeConfig(v *viper.Viper, key string, value interface{}) {
-	v.Set(key, value)
+	v.Set(key, value) // Sets the viper's key and value
 
-	err := v.WriteConfig()
+	err := v.WriteConfig() // Writes the new configuration to your config file.
 	report.Error("unable to write to config:", err)
 }
