@@ -6,10 +6,10 @@ import (
 	"engo.io/ecs"
 	"engo.io/engo"
 	"engo.io/engo/common"
-	goasperite "github.com/damienfamed75/GoAseprite"
 	"github.com/hecategames/xaro/src/gameobject/constant"
 	"github.com/hecategames/xaro/src/report"
 	"github.com/hecategames/xaro/src/system"
+	ase "github.com/solarlune/goaseprite"
 )
 
 // New is used to create a new player
@@ -33,8 +33,7 @@ func New(w *ecs.World) *Player {
 	p.MoveSpeed = constant.DEFMOVESPEED     // default the move speed
 	p.EntityScale = constant.DEFENTITYSCALE // default the entity scale
 	p.Username = config.PlayerData.Username // load username from cfg file
-	p.IsPlaying = true                      // is object playing?
-	p.Ase = goasperite.New(jsonPath)        // load spritesheet's json
+	p.Ase = ase.Load(jsonPath)              // load spritesheet's json
 	p.Spritesheet = common.NewSpritesheetFromFile(constant.PATHARCHER, int(p.Ase.FrameWidth), int(p.Ase.FrameHeight))
 
 	p.RenderComponent = common.RenderComponent{
@@ -57,9 +56,6 @@ func New(w *ecs.World) *Player {
 
 // Update gets called every frame
 func (p *Player) Update(dt float32) {
-	if !p.IsPlaying {
-		return
-	}
 	// keep playing the animation accordingly
 	p.Ase.Update(dt)
 

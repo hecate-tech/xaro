@@ -3,7 +3,7 @@ package constant
 import (
 	"engo.io/engo"
 	"engo.io/engo/common"
-	goaseprite "github.com/damienfamed75/GoAseprite"
+	ase "github.com/solarlune/goaseprite"
 )
 
 // Playable is used to import essential
@@ -18,9 +18,6 @@ type Playable struct {
 	// Username is the player's alias sent
 	// to the server and other clients.
 	Username string
-	// IsPlaying is used to check if this is
-	// an NPC or actual player object.
-	IsPlaying bool
 	// IsShooting is a current state booleon
 	// to check if the player is actioning.
 	IsShooting bool
@@ -40,5 +37,5 @@ type Basic struct {
 	Spritesheet *common.Spritesheet
 	// Ase is used to keep track of what frame
 	// is being played animation by animation using jsons.
-	Ase goaseprite.AsepriteFile
+	Ase ase.AsepriteFile
 }
