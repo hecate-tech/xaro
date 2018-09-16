@@ -1,6 +1,6 @@
 # Xaro
 
-A massively multiplayer online role playing game.
+A space metroidvania game.
 
 ## Getting Started
 
@@ -8,13 +8,13 @@ These instructions are meant for if you'd like to build the game on your local m
 
 ### Prerequisites
 
-You'll need to install [engo](https://engo.io/) and [mage](https://github.com/magefile/mage) in order to build this project. Engo wasn't included into the magefile because of dependency issues with glfw3 so you'll have to install it manually.
+You'll need to install [engo](https://engo.io/), [mage](https://github.com/magefile/mage), and [dep](https://github.com/golang/dep) in order to build this project. Engo wasn't included into the magefile because of dependency issues with glfw3 so you'll have to install it manually.
 
-* engo
+* **engo**
     * `go get -u engo.io/engo`
-* magefile
+* **magefile**
     * `go get -u -d github.com/magefile/mage`
-* dep
+* **dep**
     * MacOS
         * `brew install dep`
         * `brew upgrade dep`
@@ -25,34 +25,26 @@ You'll need to install [engo](https://engo.io/) and [mage](https://github.com/ma
 
 Install the repository directly into your gopath using this command.
 
-```
-go get -v github.com/damienfamed75/engo-xaro
+```shell
+go get -v github.com/hecategames/xaro
 ```
 
-Once you have the two dependencies installed then you can direct your terminal to the root directory of the project and with your gopath bin folder set as an environment variable for `PATH` you'll be able to use the `mage` command.
+Once you have the three prerequisites installed then you can direct your terminal to the root directory of the project and with your gopath bin folder set as an environment variable for `PATH` you'll be able to use the `mage` command.
 
-```
+The mage command will run the `magefile.go` file which is what this project uses instead of a `Makefile`. Magefiles were chosen so it was easy to build the project cross platform.
+
+```shell
 mage
 ```
 
-The mage command will run through the magefile and install the application and place the executable in the project's `/bin` folder. Then all you have to do is run the bash script to run the file.
+The mage command will clean the repo, rebuild dep, install dependencies, vet, fmt, lint, build, install the application and place the executable in the project's `/bin` folder. Then all you have to do is run the bash script to run the file.
 
-```
+```shell
+# windows
 ./runXaro.sh
-```
 
-If you want to run a server then you'll have to use the `runServer.sh` bash script instead and that will build the server if it's not built yet as well.
-
-```
-./runServer.sh
-```
-
-If you're interested in changing the `.proto` files and rebuilding them then you have to have [protobuf](https://github.com/golang/protobuf) installed on your machine by Google.
-
-Afterwards you'll be able to edit the `.proto` files and rebuild them by running the shell script located in the root directory.
-
-```
-./generateProto.sh
+# others
+sh runXaro.sh
 ```
 
 ## Authors
