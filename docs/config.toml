@@ -1,5 +1,6 @@
 title = "Xaro"
 baseURL = "https://xaro.hecategames.com"
+publishDir = "docs"
 languageCode = "en-us"
 theme = "gohugo-theme-ananke"
 themesDir = "./themes/"
