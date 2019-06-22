@@ -1,4 +1,4 @@
-package system
+package main
 
 type connection struct {
 	IP   string

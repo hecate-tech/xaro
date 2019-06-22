@@ -1,11 +1,14 @@
+/*
+Package tilemap stores all the tilemapping functionality for scenes to use.
+*/
 package tilemap
 
 import (
+	"github.com/hecatetech/xaro/general"
+
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
-	"github.com/hecategames/xaro/src/gameobject/constant"
-	"github.com/hecategames/xaro/src/report"
 )
 
 // Load will take the given world and path
@@ -13,10 +16,11 @@ import (
 // a new tilemap from it using engo's inbuilt Tiled
 // support and then set it beneath the player.
 func Load(w *ecs.World, path string) {
-	report.Status("Loading Tilemap")
+	// report.Status("Loading Tilemap")
 
-	r, err := engo.Files.Resource(path) // Loads a resource from the tilemap's path.
-	report.Error("Couldn't load resource:", err)
+	// r, err := engo.Files.Resource(path) // Loads a resource from the tilemap's path.
+	r, _ := engo.Files.Resource(path) // Loads a resource from the tilemap's path.
+	// report.Error("Couldn't load resource:", err)
 
 	tmxResource := r.(common.TMXResource) // type assert the Resource into a TMXResource.
 	levelData := tmxResource.Level
@@ -31,7 +35,7 @@ func Load(w *ecs.World, path string) {
 					Drawable: tileElement,
 					Scale:    engo.Point{X: SCALE, Y: SCALE},
 				}
-				tile.SetZIndex(constant.BACKGROUND) // Set the drawing layer to the background.
+				tile.SetZIndex(general.Background) // Set the drawing layer to the background.
 
 				pos := tileElement.Point         // Set the position to the default position
 				pos.MultiplyScalar(tile.Scale.X) // Multiply in the Scale for position correction.

@@ -1,11 +1,10 @@
-package system
+package main
 
 import (
 	"os"
 
 	"github.com/EngoEngine/engo"
 	"github.com/EngoEngine/engo/common"
-	"github.com/hecategames/xaro/src/report"
 	"github.com/spf13/viper"
 )
 
@@ -32,8 +31,9 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 	v := viper.New()
 	var c Configuration
 
-	wd, err := os.Getwd()
-	report.Error("cannot find working directory:", err)
+	// wd, err := os.Getwd()
+	wd, _ := os.Getwd()
+	// report.Error("cannot find working directory:", err)
 
 	// Adding config paths...
 	v.SetConfigName("config.development")
@@ -43,11 +43,13 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 	v.AddConfigPath(".")
 	v.AddConfigPath(wd)
 
-	err = v.ReadInConfig()
-	report.Error("unable to read in config file from selected paths:", err)
+	// err = v.ReadInConfig()
+	_ = v.ReadInConfig()
+	// report.Error("unable to read in config file from selected paths:", err)
 
-	err = v.Unmarshal(&c)
-	report.Error("unable to unmarshal config file:", err)
+	// err = v.Unmarshal(&c)
+	_ = v.Unmarshal(&c)
+	// report.Error("unable to unmarshal config file:", err)
 
 	return v, c
 }
@@ -57,6 +59,7 @@ func LoadViperConfig() (*viper.Viper, Configuration) {
 func ChangeConfig(v *viper.Viper, key string, value interface{}) {
 	v.Set(key, value) // Sets the viper's key and value
 
-	err := v.WriteConfig() // Writes the new configuration to your config file.
-	report.Error("unable to write to config:", err)
+	// err := v.WriteConfig() // Writes the new configuration to your config file.
+	_ = v.WriteConfig() // Writes the new configuration to your config file.
+	// report.Error("unable to write to config:", err)
 }
