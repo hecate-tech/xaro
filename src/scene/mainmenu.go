@@ -1,6 +1,6 @@
 package scene
 
-import "engo.io/engo"
+import "github.com/EngoEngine/engo"
 
 // MainMenu is the starting scene
 // and way to access the game scene.

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"engo.io/engo"
+	"github.com/EngoEngine/engo"
 )
 
 var (

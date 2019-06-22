@@ -1,7 +1,7 @@
 package manager
 
 import (
-	"engo.io/ecs"
+	"github.com/EngoEngine/ecs"
 	"github.com/hecategames/xaro/src/gameobject/player"
 )
 

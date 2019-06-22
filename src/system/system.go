@@ -3,8 +3,8 @@ package system
 import (
 	"os"
 
-	"engo.io/engo"
-	"engo.io/engo/common"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/engo/common"
 	"github.com/hecategames/xaro/src/report"
 	"github.com/spf13/viper"
 )

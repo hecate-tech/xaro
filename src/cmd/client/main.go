@@ -1,7 +1,7 @@
 package main
 
 import (
-	"engo.io/engo"
+	"github.com/EngoEngine/engo"
 	"github.com/hecategames/xaro/src/scene"
 	"github.com/hecategames/xaro/src/system"
 )

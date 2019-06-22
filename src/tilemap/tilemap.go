@@ -1,9 +1,9 @@
 package tilemap
 
 import (
-	"engo.io/ecs"
-	"engo.io/engo"
-	"engo.io/engo/common"
+	"github.com/EngoEngine/ecs"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/engo/common"
 	"github.com/hecategames/xaro/src/gameobject/constant"
 	"github.com/hecategames/xaro/src/report"
 )
