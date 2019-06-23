@@ -14,7 +14,7 @@ type Player struct {
 	// general.Basic contains the essential
 	// parts of a Xaro game object such as
 	// the scale, spritesheet, and aseprite.
-	general.Basic
+	*general.Basic
 	// ShootSpeed controls the speed at which
 	// the player can use their weapon.
 	ShootSpeed float32
