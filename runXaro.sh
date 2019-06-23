@@ -1,1 +1,3 @@
-./bin/Xaro.exe
+go build -o ./bin/xaro.exe ./cmd/...
+
+./bin/xaro.exe -debug

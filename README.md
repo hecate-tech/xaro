@@ -8,10 +8,10 @@ These instructions are meant for if you'd like to build the game on your local m
 
 ### Prerequisites
 
-You'll need to install [engo](https://engo.io/), [mage](https://github.com/magefile/mage), and [dep](https://github.com/golang/dep) in order to build this project. Engo wasn't included into the magefile because of dependency issues with glfw3 so you'll have to install it manually.
+You'll need to install [engo](https://github.com/EngoEngine/), [mage](https://github.com/magefile/mage), and [dep](https://github.com/golang/dep) in order to build this project. Engo wasn't included into the magefile because of dependency issues with glfw3 so you'll have to install it manually.
 
 * **engo**
-    * `go get -u engo.io/engo`
+    * `go get -u github.com/EngoEngine/engo`
 * **magefile**
     * `go get -u -d github.com/magefile/mage`
 * **dep**
