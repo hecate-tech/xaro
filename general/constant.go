@@ -26,4 +26,4 @@ const (
 
 // DrawScale is the default multiplier when drawing
 // tiles and objects in the game.
-const DrawScale = 4
+const DrawScale float32 = 4.0
