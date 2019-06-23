@@ -1,6 +1,8 @@
 package player
 
 import (
+
+	// "github.com/EngoEngine/engo"
 	"github.com/EngoEngine/ecs"
 )
 
@@ -20,6 +22,7 @@ func (p *Player) Update(dt float32) {
 	// }
 
 	p.Position.Add(*p.Velocity.MultiplyScalar(dt))
+
 	// p.Drawable = p.Spritesheet.Drawable(int(p.Ase.CurrentFrame))
 }
 

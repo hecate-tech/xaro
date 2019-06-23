@@ -29,7 +29,7 @@ func NewPlayer() (*Player, error) {
 	p := setupPlayer()
 
 	p.RenderComponent = common.RenderComponent{
-		Drawable: common.Triangle{},
+		Drawable: common.Rectangle{},
 		Color:    color.RGBA{150, 150, 0, 255},
 		Scale:    engo.Point{X: p.EntityScale, Y: p.EntityScale},
 	}
@@ -42,10 +42,19 @@ func NewPlayer() (*Player, error) {
 		// Height:   p.Spritesheet.Height() * p.RenderComponent.Scale.X,
 	}
 
+	p.CollisionComponent = common.CollisionComponent{
+		Main: 1,
+	}
+
 	// Set the 3 dimensional drawing index.
 	// p.SetZIndex(general.Player)
 
 	return p, nil
+}
+
+func (p *Player) Prepare(pos *engo.Point) {
+	p.SetPosition(pos)
+	// other steps
 }
 
 // SetPosition takes a reference to a point and sets the position to it.

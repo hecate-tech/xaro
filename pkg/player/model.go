@@ -40,4 +40,6 @@ type Player struct {
 	// common.MouseComponent allows this game object
 	// to read from the mouse input using engo's systems.
 	common.MouseComponent
+	// common.CollisionComponent is the collision box for the player.
+	common.CollisionComponent
 }
