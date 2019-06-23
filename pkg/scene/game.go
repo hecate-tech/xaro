@@ -6,6 +6,7 @@ import (
 	"github.com/hecatetech/xaro/general"
 	"github.com/hecatetech/xaro/pkg/logging"
 	p "github.com/hecatetech/xaro/pkg/player"
+	"github.com/hecatetech/xaro/pkg/resource"
 
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
@@ -49,7 +50,8 @@ func (g *Game) Preload() {
 	g.logger.Debug("Loading Scene " + g.Type())
 	// Apply settings from into the engo engine.
 	general.Apply()
-	g.player.SetPosition(g.spawnPos)
+	// g.player.SetPosition(g.spawnPos)
+	g.player.Prepare(g.spawnPos)
 }
 
 // Setup creates and instantiates all
@@ -61,11 +63,19 @@ func (g *Game) Setup(u engo.Updater) {
 
 	common.SetBackground(color.Black)
 	w.AddSystem(&common.RenderSystem{})
+	w.AddSystem(&common.CollisionSystem{Solids: 1})
+
+	wall := resource.NewWall(engo.Point{X: 0, Y: 0},
+		engo.Point{X: 50, Y: engo.WindowHeight()})
 
 	for _, system := range w.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
 			sys.Add(&g.player.BasicEntity, &g.player.RenderComponent, &g.player.SpaceComponent)
+			sys.Add(&wall.BasicEntity, &wall.RenderComponent, &wall.SpaceComponent)
+		case *common.CollisionSystem:
+			sys.Add(&g.player.BasicEntity, &g.player.CollisionComponent, &g.player.SpaceComponent)
+			sys.Add(&wall.BasicEntity, &wall.CollisionComponent, &wall.SpaceComponent)
 		}
 	}
 
