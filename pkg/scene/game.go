@@ -3,7 +3,9 @@ package scene
 import (
 	"image/color"
 
-	"github.com/hecatetech/xaro/pkg/tilemap"
+	"github.com/hecatetech/xaro/general"
+	"github.com/hecatetech/xaro/pkg/logging"
+	p "github.com/hecatetech/xaro/pkg/player"
 
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
@@ -11,51 +13,67 @@ import (
 )
 
 // Game is the main game scene for Xaro.
-type Game struct{}
+type Game struct {
+	// Given by the manager
+	player    *p.Player
+	sceneName string
+	logger    logging.Logger
 
-var (
-	gameSpawn = engo.Point{X: 0, Y: 0}
-	gamePath  = "/maps/Nexus.tmx"
-)
+	// Made here in the scene package.
+	spawnPos *engo.Point
+	bkgPath  string
+}
+
+func setupGame() *Game {
+	return &Game{
+		spawnPos: &engo.Point{X: 100, Y: 100},
+		bkgPath:  "/maps/Nexus.tmx",
+	}
+}
+
+// NewGame stores the player and scene name and sets up the rest of the scene
+// fields in the Game struct.
+func NewGame(player *p.Player, sceneName string, logger logging.Logger) *Game {
+	s := setupGame()
+
+	s.player = player
+	s.sceneName = sceneName
+	s.logger = logger
+
+	return s
+}
 
 // Preload loads in all essential
 // graphics and assets for the scene.
-func (*Game) Preload() {
-	engo.Files.Load(gamePath)
-	// system.Init()
+func (g *Game) Preload() {
+	g.logger.Debug("Loading Scene " + g.Type())
+	// Apply settings from into the engo engine.
+	general.Apply()
+	g.player.SetPosition(g.spawnPos)
 }
 
 // Setup creates and instantiates all
 // the gameobjects in the world.
-func (*Game) Setup(u engo.Updater) {
+func (g *Game) Setup(u engo.Updater) {
 	w, _ := u.(*ecs.World)
 
-	// report.Status("Loading Game")
+	w.AddSystem(g.player)
 
 	common.SetBackground(color.Black)
 	w.AddSystem(&common.RenderSystem{})
-	w.AddSystem(&common.MouseSystem{})
 
-	tilemap.Load(w, gamePath)
+	for _, system := range w.Systems() {
+		switch sys := system.(type) {
+		case *common.RenderSystem:
+			sys.Add(&g.player.BasicEntity, &g.player.RenderComponent, &g.player.SpaceComponent)
+		}
+	}
 
-	// m := manager.New(w)
-	// m.Player.Position = gameSpawn
-
-	// report.Status("Adding Systems")
-	// for _, system := range w.Systems() {
-		// switch sys := system.(type) {
-		// case *common.RenderSystem:
-			// sys.Add(&m.Player.BasicEntity, &m.Player.RenderComponent, &m.Player.SpaceComponent)
-		// case *common.MouseSystem:
-			// sys.Add(&m.Player.BasicEntity, &m.Player.MouseComponent, &m.Player.SpaceComponent, &m.Player.RenderComponent)
-		// }
-	// }
-
-	// report.Success("Game successfully loaded")
+	g.logger.Debug("Finished Loading Scene " + g.Type())
 }
 
 // Type returns the name of
 // the given scene.
-func (*Game) Type() string {
-	return "Game"
+func (g *Game) Type() string {
+	return g.sceneName
 }
