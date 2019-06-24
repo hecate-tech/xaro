@@ -31,19 +31,16 @@ func NewPlayer() (*Player, error) {
 	p.RenderComponent = common.RenderComponent{
 		Drawable: common.Rectangle{},
 		Color:    color.RGBA{150, 150, 0, 255},
-		Scale:    engo.Point{X: p.EntityScale, Y: p.EntityScale},
 	}
 
 	p.SpaceComponent = common.SpaceComponent{
 		Position: engo.Point{X: 0, Y: 0},
-		Width:    10,
-		Height:   10,
-		// Width:    p.Spritesheet.Width() * p.RenderComponent.Scale.Y,
-		// Height:   p.Spritesheet.Height() * p.RenderComponent.Scale.X,
+		Width:    20,
+		Height:   20,
 	}
 
 	p.CollisionComponent = common.CollisionComponent{
-		Main: 1,
+		Main: general.Solid,
 	}
 
 	// Set the 3 dimensional drawing index.
