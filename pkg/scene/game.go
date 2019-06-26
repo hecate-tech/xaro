@@ -27,7 +27,7 @@ type Game struct {
 
 func setupGame() *Game {
 	return &Game{
-		spawnPos: &engo.Point{X: 100, Y: 100},
+		spawnPos: &engo.Point{X: 50, Y: 50},
 		bkgPath:  "/maps/Nexus.tmx",
 	}
 }
@@ -60,24 +60,21 @@ func (g *Game) Setup(u engo.Updater) {
 	w, _ := u.(*ecs.World)
 
 	w.AddSystem(g.player)
+	w.AddSystem(&common.RenderSystem{})
+	w.AddSystem(&common.CollisionSystem{Solids: general.Solid})
 
 	common.SetBackground(color.Black)
-	w.AddSystem(&common.RenderSystem{})
-	w.AddSystem(&common.CollisionSystem{Solids: 1})
-
-	wall := resource.NewWall(engo.Point{X: 0, Y: 0},
-		engo.Point{X: 50, Y: engo.WindowHeight()})
 
 	for _, system := range w.Systems() {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
 			sys.Add(&g.player.BasicEntity, &g.player.RenderComponent, &g.player.SpaceComponent)
-			sys.Add(&wall.BasicEntity, &wall.RenderComponent, &wall.SpaceComponent)
 		case *common.CollisionSystem:
 			sys.Add(&g.player.BasicEntity, &g.player.CollisionComponent, &g.player.SpaceComponent)
-			sys.Add(&wall.BasicEntity, &wall.CollisionComponent, &wall.SpaceComponent)
 		}
 	}
+
+	resource.NewRoom(w, 1)
 
 	g.logger.Debug("Finished Loading Scene " + g.Type())
 }

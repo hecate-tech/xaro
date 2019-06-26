@@ -1,9 +1,10 @@
 package player
 
 import (
+	"github.com/hecatetech/xaro/general"
 
-	// "github.com/EngoEngine/engo"
 	"github.com/EngoEngine/ecs"
+	"github.com/EngoEngine/engo"
 )
 
 // Update gets called every frame
@@ -29,4 +30,19 @@ func (p *Player) Update(dt float32) {
 // Remove deletes the player and player systems
 func (p *Player) Remove(ecs.BasicEntity) {
 	p.Drawable.Close()
+}
+
+func (p *Player) updateMovement() {
+	if engo.Input.Button(general.BtnLeft).Down() {
+		p.Velocity.X = -p.MoveSpeed
+	}
+	if engo.Input.Button(general.BtnRight).Down() {
+		p.Velocity.X = +p.MoveSpeed
+	}
+	if engo.Input.Button(general.BtnUp).Down() {
+		p.Velocity.Y = -p.MoveSpeed
+	}
+	if engo.Input.Button(general.BtnDown).Down() {
+		p.Velocity.Y = +p.MoveSpeed
+	}
 }

@@ -1,5 +1,7 @@
 package general
 
+import "github.com/EngoEngine/engo/common"
+
 const (
 	// Background is the background image of the stage.
 	// In a top down perspective this would be the floor.
@@ -24,6 +26,17 @@ const (
 	MenuGraphics
 )
 
+const (
+	BtnLeft  = "left"
+	BtnRight = "right"
+	BtnUp    = "up"
+	BtnDown  = "down"
+)
+
 // DrawScale is the default multiplier when drawing
 // tiles and objects in the game.
 const DrawScale float32 = 4.0
+
+// Solid is used for any solid colliders that should have
+// a collision box with the player.
+const Solid common.CollisionGroup = 1
