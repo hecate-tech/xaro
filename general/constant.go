@@ -26,6 +26,13 @@ const (
 	MenuGraphics
 )
 
+const (
+	BtnLeft  = "left"
+	BtnRight = "right"
+	BtnUp    = "up"
+	BtnDown  = "down"
+)
+
 // DrawScale is the default multiplier when drawing
 // tiles and objects in the game.
 const DrawScale float32 = 4.0

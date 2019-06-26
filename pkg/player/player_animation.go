@@ -5,29 +5,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hecatetech/xaro/general"
+
 	"github.com/EngoEngine/engo"
 )
 
 var (
-	directions = []string{"left", "right", "up", "down"}
-	timeStamp  int64
-	timer      time.Timer
+	directions = [4]string{general.BtnLeft, general.BtnRight,
+		general.BtnUp, general.BtnDown}
+	timeStamp int64
+	timer     time.Timer
 )
-
-func (p *Player) updateMovement() {
-	if engo.Input.Button("left").Down() {
-		p.Velocity.X = -p.MoveSpeed
-	}
-	if engo.Input.Button("right").Down() {
-		p.Velocity.X = +p.MoveSpeed
-	}
-	if engo.Input.Button("up").Down() {
-		p.Velocity.Y = -p.MoveSpeed
-	}
-	if engo.Input.Button("down").Down() {
-		p.Velocity.Y = +p.MoveSpeed
-	}
-}
 
 func (p *Player) inAction() bool {
 	if !p.IsShooting {
