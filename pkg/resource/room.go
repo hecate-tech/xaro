@@ -96,6 +96,8 @@ func NewRoom(w *ecs.World, num int) *Room {
 		switch sys := system.(type) {
 		case *common.RenderSystem:
 			sys.Add(&r.goal.BasicEntity, &r.goal.RenderComponent, &r.goal.SpaceComponent)
+		case *common.CollisionSystem:
+			sys.Add(&r.goal.BasicEntity, &r.goal.CollisionComponent, &r.goal.SpaceComponent)
 		}
 	}
 
